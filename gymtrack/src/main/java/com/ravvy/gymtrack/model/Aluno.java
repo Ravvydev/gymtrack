@@ -1,13 +1,49 @@
 package com.ravvy.gymtrack.model;
 
-import jakarta.persistence.Entity;
+import com.ravvy.gymtrack.util.Email;
+import com.ravvy.gymtrack.util.Endereco;
+import com.ravvy.gymtrack.util.Telefone;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
+@Table(name = "aluno")
 public class Aluno {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "nome",length = 100,  nullable = false)
+    private String nome;
+
+    @Embedded
+    private Email email;
+
+    @Embedded
+    private Telefone telefones;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "endereco_id",  nullable = false)
+    private Endereco endereco;
+
+    @Column(name = "cpf", length = 11,
+            nullable = false, unique = true)
+    private String cpf;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "professor_id")
+    private Professor professor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "instituicao_id")
+    private Instituicao instituicao;
 
 }
