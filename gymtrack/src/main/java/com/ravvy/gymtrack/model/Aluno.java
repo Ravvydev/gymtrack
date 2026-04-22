@@ -3,11 +3,15 @@ package com.ravvy.gymtrack.model;
 import com.ravvy.gymtrack.util.Email;
 import com.ravvy.gymtrack.util.Endereco;
 import com.ravvy.gymtrack.util.Telefone;
+import com.ravvy.gymtrack.util.TipoSexo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.HashMap;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -24,11 +28,18 @@ public class Aluno {
     @Column(name = "nome",length = 100,  nullable = false)
     private String nome;
 
+    @Column(name = "idade", nullable = false)
+    private Integer idade;
+
+    @Column(name = "sexo", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TipoSexo sexo;
+
     @Embedded
     private Email email;
 
     @Embedded
-    private Telefone telefones;
+    private Telefone telefone;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "endereco_id",  nullable = false)
@@ -45,5 +56,8 @@ public class Aluno {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instituicao_id")
     private Instituicao instituicao;
+
+    @OneToMany(mappedBy = "aluno",fetch = FetchType.LAZY)
+    private List<Avaliacao> avaliacoes;
 
 }
