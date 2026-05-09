@@ -45,4 +45,7 @@ public class AlunoService {
         return avaliacao.getPerimetroCintura() / avaliacao.getAltura();
     }
 
+    public boolean existeAluno(Long id) {
+        return alunoRepository.existsById(id);
+    }
 }

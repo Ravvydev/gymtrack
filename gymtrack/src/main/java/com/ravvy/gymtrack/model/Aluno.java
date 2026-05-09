@@ -51,7 +51,7 @@ public class Aluno {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "professor_id")
-    private Professor professor;
+    private Professor professor = null;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instituicao_id")

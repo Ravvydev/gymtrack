@@ -9,9 +9,9 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Entity
 @Getter
 @Setter
+@Entity
 @Table(name = "professor")
 public class Professor {
 

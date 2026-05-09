@@ -44,7 +44,7 @@ public class Avaliacao {
     @Column(name = "zona", nullable = false)
     private TipoClassificacao zona;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "aluno_id")
     private Aluno aluno;
 
