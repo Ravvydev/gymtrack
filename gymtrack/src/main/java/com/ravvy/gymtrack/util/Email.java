@@ -2,6 +2,7 @@ package com.ravvy.gymtrack.util;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,11 +13,11 @@ import lombok.Setter;
 public class Email {
 
     @Column(name = "email", length = 100,  nullable = false,  unique = true)
-    @NotNull
+    @NotBlank
     private String email;
 
     @Column(length = 100,  nullable = false,  unique = true)
-    @NotNull
+    @NotBlank
     private String senha;
 
     public Email(String email, String senha) {

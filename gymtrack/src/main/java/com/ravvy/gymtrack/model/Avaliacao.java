@@ -3,6 +3,7 @@ package com.ravvy.gymtrack.model;
 import com.ravvy.gymtrack.util.TipoClassificacao;
 import com.ravvy.gymtrack.util.TipoSexo;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,37 +13,12 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Table(name = "Avaliacao")
 public class Avaliacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "sexo", nullable = false)
-    private TipoSexo sexo;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "classificacao",  nullable = false)
-    private TipoClassificacao tipoClassificacao;
-
-    @Column(name = "DataDaAvaliacao", nullable = false, unique = true)
-    private LocalDate dataAvaliacao;
-
-    @Column(name = "peso",  nullable = false)
-    private Double peso;
-
-    @Column(name = "altura", nullable = false)
-    private Double altura;
-
-    @Column(name = "peso",  nullable = false)
-    private Double envergadura;
-
-    @Column(name = "peso",  nullable = false)
-    private Double perimetroCintura;
-
-    @Column(name = "zona", nullable = false)
-    private TipoClassificacao zona;
 
     @ManyToOne
     @JoinColumn(name = "aluno_id")
@@ -51,6 +27,36 @@ public class Avaliacao {
     @ManyToOne
     @JoinColumn(name = "professor_id")
     private Professor professor;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "sexo_Aluno", nullable = false)
+    private TipoSexo sexo;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "classificacao",  nullable = false)
+    private TipoClassificacao tipoClassificacao;
+
+    @Column(name = "DataDaAvaliacao", nullable = false)
+    private LocalDate dataAvaliacao;
+
+    @Column(name = "peso",  nullable = false)
+    private Double peso;
+
+    @Column(name = "altura", nullable = false)
+    private Double altura;
+
+    @Column(name = "IMC", nullable = false)
+    private Double imc;
+
+    @Column(name = "peso",  nullable = false)
+    private Double envergadura;
+
+    @Column(name = "peso",  nullable = false)
+    private Double perimetroCintura;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "zona", nullable = false)
+    private TipoClassificacao zona;
 
     @OneToMany
     @JoinColumn(name = "lista_exercicios_id")

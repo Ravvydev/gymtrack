@@ -13,13 +13,15 @@ public class AvaliacaoService {
         this.avaliacaoRepository = avaliacaoRepository;
     }
 
-    public Double calcularIMC(Avaliacao avaliacao) {
-        return avaliacao.getPeso() /
+    public void calcularIMC(Avaliacao avaliacao) {
+        Double IMC = avaliacao.getPeso() /
                 (avaliacao.getAltura() * avaliacao.getAltura());
+        avaliacao.setImc(IMC);
     }
 
-    public Double calcularRCE(Avaliacao avaliacao) {
-        return avaliacao.getPerimetroCintura() / avaliacao.getAltura();
+    public void calcularRCE(Avaliacao avaliacao) {
+        Double perimetroCintura = avaliacao.getPerimetroCintura() / avaliacao.getAltura();
+        avaliacao.setPerimetroCintura(perimetroCintura);
     }
 
 }

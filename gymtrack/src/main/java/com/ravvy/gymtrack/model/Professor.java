@@ -3,6 +3,7 @@ package com.ravvy.gymtrack.model;
 import com.ravvy.gymtrack.util.Email;
 import com.ravvy.gymtrack.util.Endereco;
 import com.ravvy.gymtrack.util.Telefone;
+import com.ravvy.gymtrack.util.TipoSexo;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +25,12 @@ public class Professor {
 
     @Column(name = "cpf", length = 11, nullable = false, unique = true)
     private String cpf;
+
+    @Column(name = "idade", nullable = false, length = 2)
+    private int idade;
+
+    @Column(name = "sexo",  nullable = false, length = 1)
+    private TipoSexo sexo;
 
     @Embedded
     private Email email;

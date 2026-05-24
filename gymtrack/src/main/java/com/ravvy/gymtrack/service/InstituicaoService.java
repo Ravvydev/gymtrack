@@ -2,12 +2,15 @@ package com.ravvy.gymtrack.service;
 
 import com.ravvy.gymtrack.model.Aluno;
 import com.ravvy.gymtrack.model.Instituicao;
+import com.ravvy.gymtrack.model.Professor;
 import com.ravvy.gymtrack.repository.AlunoRepository;
 import com.ravvy.gymtrack.repository.InstituicaoRepository;
 import com.ravvy.gymtrack.repository.ProfessorRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class InstituicaoService {
@@ -24,32 +27,66 @@ public class InstituicaoService {
         this.professorRepository = professorRepository;
     }
 
-    public void saveInstituicao(Instituicao instituicao) {
+    public void save(Instituicao instituicao) {
 
-        if (instituicaoRepository.existsById(instituicao.getId())) {
-            throw new RuntimeException("A instituição já existe");
-        }
+        instituicaoRepository.findById(instituicao.getId())
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Instituição não encontrado no id " + instituicao.getId()));
 
         instituicaoRepository.save(instituicao);
     }
 
-    public void deleteInstituicao(Instituicao instituicao) {
+    public void delete(Instituicao instituicao) {
+
+        instituicaoRepository.findById(instituicao.getId())
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Instituição não encontrado no id " + instituicao.getId()));
+
         instituicaoRepository.delete(instituicao);
     }
 
-    public List<Instituicao> findAllInstituicao() {
+    public Optional<Instituicao> findById(Long id) {
+        return instituicaoRepository.findById(id);
+    }
+
+    public void adicionarAlunoEmInstituicao(Long idAluno, Long idInstituicao) {
+
+        Aluno aluno = alunoRepository.findById(idAluno)
+                        .orElseThrow(() ->
+                        new EntityNotFoundException("Aluno não encontrado no id " + idAluno));
+
+        Instituicao instituicao = instituicaoRepository.findById(idInstituicao)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Instituição não encontrado no id " + idInstituicao));
+
+        instituicao.getAlunos().add(aluno);
+        instituicaoRepository.save(instituicao);
+    }
+
+    public void adicionarProfessorEmInstituicao(Long idProfessor, Long idInstituicao) {
+
+        Professor professor = professorRepository.findById(idProfessor)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("professor não encontrado no id " + idProfessor));
+
+        Instituicao instituicao = instituicaoRepository.findById(idProfessor)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Instituição não encontrado no id " + idInstituicao));
+
+        instituicao.getProfessores().add(professor);
+        instituicaoRepository.save(instituicao);
+    }
+
+    public List<Aluno> listarTodosAlunosInstituicao() {
+        return instituicaoRepository.findAllTodosAlunos();
+    }
+
+    public List<Professor> listarTodosProfessoresInstituicao() {
+        return instituicaoRepository.findAllTodosProfessores();
+    }
+
+    public List<Instituicao> listarTodosInstituicao() {
         return instituicaoRepository.findAll();
     }
 
-    public void adicionarAlunoEmInstituicao(Long id) {
-        if (!alunoRepository.existsById(id))
-            throw new RuntimeException("Id do professor invalido");
-        instituicaoRepository.adicionarAlunoEmInstituicao(id);
-    }
-
-    public void adicionarProfessorEmInstituicao(Long id) {
-        if (!professorRepository.existsById(id))
-            throw new RuntimeException("Id do professor invalido");
-        instituicaoRepository.adicionarAlunoEmInstituicao(id);
-    }
 }

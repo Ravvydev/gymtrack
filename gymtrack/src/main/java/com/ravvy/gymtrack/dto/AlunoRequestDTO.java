@@ -17,7 +17,7 @@ public class AlunoRequestDTO {
     private String nome;
 
     @NotBlank
-    private int idade;
+    private Integer idade;
 
     @NotBlank
     private String cpf;
@@ -25,7 +25,6 @@ public class AlunoRequestDTO {
     @NotBlank
     private Telefone telefone;
 
-    @jakarta.validation.constraints.Email
     private Email email;
 
     @NotBlank

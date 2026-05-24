@@ -13,30 +13,30 @@ import org.springframework.web.bind.annotation.*;
 public class AlunoController {
 
     private AlunoService alunoService;
-    private MapperAluno mapperAluno;
+    private final MapperAluno mapperAluno;
 
-    @PostMapping("/POST/save-aluno")
+    public AlunoController(AlunoService alunoService, MapperAluno mapperAluno) {
+        this.alunoService = alunoService;
+        this.mapperAluno = mapperAluno;
+    }
+
+    @PostMapping
     public void saveAluno(@RequestBody AlunoRequestDTO requestDTO) {
         alunoService.save(mapperAluno.requestToEntity(requestDTO));
     }
 
-    @GetMapping("GET/get-aluno")
-    public AlunoResponseDTO getAluno(@RequestParam Long id) {
+    @GetMapping("/{id}")
+    public AlunoResponseDTO getAluno(@PathVariable Long id) {
 
-        Aluno aluno = alunoService.findById(id)
-                        .orElseThrow(() ->
-                        new EntityNotFoundException("Aluno não encontrado por id " + id));
-
+        Aluno aluno = alunoService.buscarPorId(id);
         return mapperAluno.entityToResponseDTO(aluno);
+
     }
 
-    @DeleteMapping("/DELETE/delete-aluno")
-    public void deleteAluno(@RequestParam Long id) {
+    @DeleteMapping("/{id}")
+    public void deleteAluno(@PathVariable Long id) {
 
-        Aluno aluno = alunoService.findById(id)
-                        .orElseThrow(() ->
-                        new EntityNotFoundException("Aluno não encontrado por id " + id));
-
+        Aluno aluno = alunoService.buscarPorId(id);
         alunoService.delete(aluno);
     }
 

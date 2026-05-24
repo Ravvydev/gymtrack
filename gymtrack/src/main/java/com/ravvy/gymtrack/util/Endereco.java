@@ -42,4 +42,14 @@ public class Endereco {
     @Column(length = 2,  nullable = false)
     private String uf;
 
+    public String getLocalizacao() {
+        return "Cidade: " + cidade +
+                "\nUF: " + uf +
+                "\nCep: " + cep +
+                "\nRua: " + rua +
+                "\nBairro: " + bairro +
+                "\nNúmero: " + numeroCasa +
+                "\nComplemento: " + complemento;
+    }
+
 }
