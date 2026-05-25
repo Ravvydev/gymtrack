@@ -44,12 +44,4 @@ public class AlunoService {
         return alunoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Aluno não encontrado no id "+ id));
     }
 
-    public Double calcularIMC(Avaliacao avaliacao) {
-        return avaliacao.getPeso() / (avaliacao.getAltura() * avaliacao.getAltura());
-    }
-
-    public Double calcularRCE(Avaliacao avaliacao) {
-        return avaliacao.getPerimetroCintura() / avaliacao.getAltura();
-    }
-
 }

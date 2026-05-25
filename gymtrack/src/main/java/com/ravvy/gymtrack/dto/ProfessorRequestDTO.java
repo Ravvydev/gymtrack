@@ -3,7 +3,7 @@ package com.ravvy.gymtrack.dto;
 import com.ravvy.gymtrack.model.Instituicao;
 import com.ravvy.gymtrack.util.Email;
 import com.ravvy.gymtrack.util.Telefone;
-import com.ravvy.gymtrack.util.TipoSexo;
+import com.ravvy.gymtrack.util.TipoSexoBiologico;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +27,7 @@ public class ProfessorRequestDTO {
     private Email email;
 
     @NotBlank
-    private TipoSexo sexo;
+    private TipoSexoBiologico sexo;
 
     @NotBlank
     private Instituicao instituicao;

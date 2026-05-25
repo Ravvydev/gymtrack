@@ -1,13 +1,14 @@
 package com.ravvy.gymtrack.model;
 
 import com.ravvy.gymtrack.util.TipoClassificacao;
-import com.ravvy.gymtrack.util.TipoSexo;
+import com.ravvy.gymtrack.util.TipoSexoBiologico;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -30,29 +31,44 @@ public class Avaliacao {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "sexo_Aluno", nullable = false)
-    private TipoSexo sexo;
+    private TipoSexoBiologico sexo;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "classificacao",  nullable = false)
     private TipoClassificacao tipoClassificacao;
 
     @Column(name = "DataDaAvaliacao", nullable = false)
-    private LocalDate dataAvaliacao;
+    private LocalDateTime dataAvaliacao;
 
     @Column(name = "peso",  nullable = false)
+    @NotNull
+    @Positive
     private Double peso;
 
     @Column(name = "altura", nullable = false)
+    @NotNull
+    @Positive
     private Double altura;
 
-    @Column(name = "IMC", nullable = false)
-    private Double imc;
-
-    @Column(name = "peso",  nullable = false)
+    @Column(name = "evergadura",  nullable = false)
+    @NotNull
+    @Positive
     private Double envergadura;
 
-    @Column(name = "peso",  nullable = false)
+    @Column(name = "perimetroCintura",  nullable = false)
+    @NotNull
+    @Positive
     private Double perimetroCintura;
+
+    @Column(name = "IMC", nullable = false)
+    @NotNull
+    @Positive
+    private Double imc;
+
+    @Column(name = "RCE", nullable = false)
+    @NotNull
+    @Positive
+    private Double rce;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "zona", nullable = false)

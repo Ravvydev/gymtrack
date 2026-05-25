@@ -1,13 +1,16 @@
 package com.ravvy.gymtrack.util;
 
-public enum TipoSexo {
+import lombok.Getter;
+
+@Getter
+public enum TipoSexoBiologico {
 
     MASCULINO('M'),
     FEMININO('F');
 
     private char abreviacao;
 
-    TipoSexo(char abreviacao) {
+    TipoSexoBiologico(char abreviacao) {
         this.abreviacao = abreviacao;
     }
 }

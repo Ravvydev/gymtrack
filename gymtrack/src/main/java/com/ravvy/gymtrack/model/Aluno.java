@@ -3,14 +3,13 @@ package com.ravvy.gymtrack.model;
 import com.ravvy.gymtrack.util.Email;
 import com.ravvy.gymtrack.util.Endereco;
 import com.ravvy.gymtrack.util.Telefone;
-import com.ravvy.gymtrack.util.TipoSexo;
+import com.ravvy.gymtrack.util.TipoSexoBiologico;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Entity
@@ -33,7 +32,7 @@ public class Aluno {
 
     @Column(name = "sexo", nullable = false)
     @Enumerated(EnumType.STRING)
-    private TipoSexo sexo;
+    private TipoSexoBiologico sexo;
 
     @Embedded
     private Email email;

@@ -35,7 +35,6 @@ public class AlunoController {
 
     @DeleteMapping("/{id}")
     public void deleteAluno(@PathVariable Long id) {
-
         Aluno aluno = alunoService.buscarPorId(id);
         alunoService.delete(aluno);
     }

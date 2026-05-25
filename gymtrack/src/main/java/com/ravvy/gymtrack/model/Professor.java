@@ -3,7 +3,7 @@ package com.ravvy.gymtrack.model;
 import com.ravvy.gymtrack.util.Email;
 import com.ravvy.gymtrack.util.Endereco;
 import com.ravvy.gymtrack.util.Telefone;
-import com.ravvy.gymtrack.util.TipoSexo;
+import com.ravvy.gymtrack.util.TipoSexoBiologico;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,7 +30,7 @@ public class Professor {
     private int idade;
 
     @Column(name = "sexo",  nullable = false, length = 1)
-    private TipoSexo sexo;
+    private TipoSexoBiologico sexo;
 
     @Embedded
     private Email email;
