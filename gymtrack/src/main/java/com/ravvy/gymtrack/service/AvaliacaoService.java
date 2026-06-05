@@ -6,12 +6,16 @@ import com.ravvy.gymtrack.repository.AvaliacaoRepository;
 import com.ravvy.gymtrack.util.TipoClassificacao;
 import com.ravvy.gymtrack.util.TipoSexoBiologico;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 @Service
+@Getter
+@Setter
 public class AvaliacaoService {
 
     private final AvaliacaoRepository avaliacaoRepository;
@@ -71,7 +75,11 @@ public class AvaliacaoService {
     }
 
     private TipoClassificacao calcularTipoClassificacao(Aluno aluno, Double imc) {
-        return classificacaoImcService.classificar(aluno.getSexo(), aluno.getIdade(), imc);
+        return classificacaoImcService.classificar(
+                                aluno.getSexo(),
+                                YearOldService.calcularIdade(aluno.getDataNascimento()),
+                                imc
+                        );
     }
 
 }

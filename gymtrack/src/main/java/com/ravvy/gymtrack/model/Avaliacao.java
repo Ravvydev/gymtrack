@@ -25,6 +25,9 @@ public class Avaliacao {
     @JoinColumn(name = "aluno_id")
     private Aluno aluno;
 
+    @Column(name = "idade_aluno")
+    private Integer idadeAluno;
+
     @ManyToOne
     @JoinColumn(name = "professor_id")
     private Professor professor;

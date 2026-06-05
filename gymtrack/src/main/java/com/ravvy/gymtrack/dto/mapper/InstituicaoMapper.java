@@ -1,32 +1,39 @@
 package com.ravvy.gymtrack.dto.mapper;
 
-import com.ravvy.gymtrack.dto.InstituicaoRequestDTO;
-import com.ravvy.gymtrack.dto.InstituicaoResponseDTO;
+import com.ravvy.gymtrack.dto.InstituicaoCreateRequest;
+import com.ravvy.gymtrack.dto.InstituicaoResponse;
 import com.ravvy.gymtrack.model.Instituicao;
-import lombok.Getter;
-import lombok.Setter;
+import com.ravvy.gymtrack.service.EnderecoService;
+import com.ravvy.gymtrack.util.Email;
+import com.ravvy.gymtrack.util.Telefone;
+import org.springframework.stereotype.Component;
 
-@Getter
-@Setter
+@Component
 public class InstituicaoMapper {
 
-    public Instituicao requestToEntity(InstituicaoRequestDTO requestDTO) {
+    private final EnderecoService enderecoService;
+
+    public InstituicaoMapper(EnderecoService enderecoService) {
+        this.enderecoService = enderecoService;
+    }
+
+    public Instituicao toEntity(InstituicaoCreateRequest requestDTO) {
         Instituicao instituicao = new Instituicao();
-        instituicao.setId(requestDTO.getId());
-        instituicao.setNome(requestDTO.getNome());
-        instituicao.setEmail(requestDTO.getEmail());
-        instituicao.setTelefone(requestDTO.getTelefone());
-        instituicao.setEndereco(requestDTO.getEndereco());
+        instituicao.setNome(requestDTO.nome());
+        instituicao.setEmail(new Email(requestDTO.email(), requestDTO.senha()));
+        instituicao.setTelefone(new Telefone(requestDTO.telefone()));
+        instituicao.setEndereco(enderecoService.buscarPorId(requestDTO.enderecoId()));
         return instituicao;
     }
 
-    public InstituicaoResponseDTO entityToResponseDTO(Instituicao entity) {
-        InstituicaoResponseDTO ResponseDTO = new InstituicaoResponseDTO();
-        entity.setNome(entity.getNome());
-        entity.setEmail(entity.getEmail());
-        entity.setTelefone(entity.getTelefone());
-        entity.setEndereco(entity.getEndereco());
-        return ResponseDTO;
+    public InstituicaoResponse toResponse(Instituicao entity) {
+        return new InstituicaoResponse(
+                entity.getId(),
+                entity.getNome(),
+                entity.getEmail().getEmail(),
+                entity.getTelefone().getNumero(),
+                entity.getEndereco().getLocalizacao()
+        );
     }
 
 }

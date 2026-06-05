@@ -9,7 +9,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -27,8 +30,8 @@ public class Aluno {
     @Column(name = "nome",length = 100,  nullable = false)
     private String nome;
 
-    @Column(name = "idade", nullable = false)
-    private Integer idade;
+    @Column(name = "data_nascimento", nullable = false)
+    private LocalDate dataNascimento;
 
     @Column(name = "sexo", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -36,6 +39,9 @@ public class Aluno {
 
     @Embedded
     private Email email;
+
+    @Column(name = "senha", nullable = false, unique = true)
+    private String senha;
 
     @Embedded
     private Telefone telefone;

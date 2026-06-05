@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -26,8 +27,8 @@ public class Professor {
     @Column(name = "cpf", length = 11, nullable = false, unique = true)
     private String cpf;
 
-    @Column(name = "idade", nullable = false, length = 2)
-    private int idade;
+    @Column(name = "data_Nascimento", nullable = false, length = 2)
+    private LocalDate dataNascimento;
 
     @Column(name = "sexo",  nullable = false, length = 1)
     private TipoSexoBiologico sexo;

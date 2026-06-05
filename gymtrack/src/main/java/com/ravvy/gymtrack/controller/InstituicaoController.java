@@ -1,7 +1,7 @@
 package com.ravvy.gymtrack.controller;
 
-import com.ravvy.gymtrack.dto.InstituicaoRequestDTO;
-import com.ravvy.gymtrack.dto.InstituicaoResponseDTO;
+import com.ravvy.gymtrack.dto.InstituicaoCreateRequest;
+import com.ravvy.gymtrack.dto.InstituicaoResponse;
 import com.ravvy.gymtrack.dto.mapper.InstituicaoMapper;
 import com.ravvy.gymtrack.model.Instituicao;
 import com.ravvy.gymtrack.service.InstituicaoService;
@@ -14,21 +14,23 @@ import java.util.List;
 @RequestMapping("/instituição")
 public class InstituicaoController {
 
-    private InstituicaoService instituicaoService;
-    private InstituicaoMapper mapper;
+    private final InstituicaoService instituicaoService;
+    private final InstituicaoMapper instituicaoMapper;
+
+    public InstituicaoController(InstituicaoService instituicaoService, InstituicaoMapper instituicaoMapper) {
+        this.instituicaoService = instituicaoService;
+        this.instituicaoMapper = instituicaoMapper;
+    }
 
     @PostMapping("/save")
-    private void saveInstituicao(@RequestBody @Valid InstituicaoRequestDTO request){
-        instituicaoService.save(mapper.requestToEntity(request));
+    private void saveInstituicao(@RequestBody @Valid InstituicaoCreateRequest request){
+        instituicaoService.save(instituicaoMapper.toEntity(request));
     }
 
     @GetMapping("/{id}")
-    private InstituicaoResponseDTO getInstituicao(@PathVariable @Valid Long id){
-        Instituicao instituicao = instituicaoService.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Instituição não encontrada no id " + id));
-
-        return mapper.entityToResponseDTO(instituicao);
+    private InstituicaoResponse getInstituicao(@PathVariable @Valid Long id){
+        Instituicao instituicao = instituicaoService.buscarPorId(id);
+        return instituicaoMapper.toResponse(instituicao);
     }
     @GetMapping("/listar-instituições")
     public List<Instituicao> listarTodosInstituicao() {
@@ -37,11 +39,7 @@ public class InstituicaoController {
 
     @DeleteMapping("/delete/{id}")
     public  void deleteInstituicao(@PathVariable @Valid Long id){
-        Instituicao instituicao = instituicaoService.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Instituição não encontrada no id " + id));
-
-        instituicaoService.delete(instituicao);
+        instituicaoService.deleteById(id);
     }
 
 }

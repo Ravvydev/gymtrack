@@ -15,9 +15,9 @@ import java.util.Optional;
 @Service
 public class InstituicaoService {
 
-    private InstituicaoRepository instituicaoRepository;
-    private AlunoRepository alunoRepository;
-    private ProfessorRepository professorRepository;
+    private final InstituicaoRepository instituicaoRepository;
+    private final AlunoRepository alunoRepository;
+    private final ProfessorRepository professorRepository;
 
     public InstituicaoService(InstituicaoRepository instituicaoRepository,
                               AlunoRepository alunoRepository,
@@ -29,24 +29,15 @@ public class InstituicaoService {
 
     public void save(Instituicao instituicao) {
 
-        instituicaoRepository.findById(instituicao.getId())
-                .orElseThrow(() ->
-                        new EntityNotFoundException("Instituição não encontrado no id " + instituicao.getId()));
-
+        if (instituicao == null) {
+            throw new IllegalArgumentException("A instituição não pode ser nulo");
+        }
         instituicaoRepository.save(instituicao);
     }
 
-    public void delete(Instituicao instituicao) {
-
-        instituicaoRepository.findById(instituicao.getId())
-                .orElseThrow(() ->
-                        new EntityNotFoundException("Instituição não encontrado no id " + instituicao.getId()));
-
+    public void deleteById(Long id) {
+        Instituicao instituicao = buscarPorId(id);
         instituicaoRepository.delete(instituicao);
-    }
-
-    public Optional<Instituicao> findById(Long id) {
-        return instituicaoRepository.findById(id);
     }
 
     public void adicionarAlunoEmInstituicao(Long idAluno, Long idInstituicao) {
@@ -87,6 +78,11 @@ public class InstituicaoService {
 
     public List<Instituicao> listarTodosInstituicao() {
         return instituicaoRepository.findAll();
+    }
+
+    public Instituicao buscarPorId(Long id) {
+        return instituicaoRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Instituição não encontrada no id " + id));
     }
 
 }
