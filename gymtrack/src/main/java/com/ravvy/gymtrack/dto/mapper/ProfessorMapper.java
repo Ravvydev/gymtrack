@@ -2,6 +2,8 @@ package com.ravvy.gymtrack.dto.mapper;
 
 import com.ravvy.gymtrack.dto.ProfessorCreateRequest;
 import com.ravvy.gymtrack.dto.ProfessorResponse;
+import com.ravvy.gymtrack.dto.ProfessorUpdateRequest;
+import com.ravvy.gymtrack.dto.UpdateSenha;
 import com.ravvy.gymtrack.model.Instituicao;
 import com.ravvy.gymtrack.model.Professor;
 import com.ravvy.gymtrack.service.EnderecoService;
@@ -9,6 +11,7 @@ import com.ravvy.gymtrack.service.InstituicaoService;
 import com.ravvy.gymtrack.service.YearOldService;
 import com.ravvy.gymtrack.util.Email;
 import com.ravvy.gymtrack.util.Endereco;
+import com.ravvy.gymtrack.util.Telefone;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
@@ -16,15 +19,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProfessorMapper {
 
-    private final InstituicaoService instituicaoService;
-    private final EnderecoService enderecoService;
-
-    public ProfessorMapper(InstituicaoService instituicaoService, EnderecoService enderecoService) {
-        this.instituicaoService = instituicaoService;
-        this.enderecoService = enderecoService;
-    }
-
-    public Professor toEntity(ProfessorCreateRequest requestDTO) {
+    public Professor toEntity(ProfessorCreateRequest requestDTO,
+                              Endereco endereco,
+                              Instituicao instituicao) {
 
         Professor professor = new Professor();
 
@@ -44,12 +41,9 @@ public class ProfessorMapper {
 
         professor.setSexo(requestDTO.sexo());
 
-        professor.setInstituicao(
-                instituicaoService.buscarPorId(requestDTO.instituicaoId()));
+        professor.setEndereco(endereco);
 
-        professor.setEndereco(
-                enderecoService.buscarPorId(requestDTO.enderecoId())
-        );
+        professor.setInstituicao(instituicao);
 
         professor.setTelefone(requestDTO.telefone());
 
@@ -68,6 +62,24 @@ public class ProfessorMapper {
                 professor.getEndereco().getLocalizacao(),
                 professor.getInstituicao().getNome()
         );
+
+    }
+
+    public void updateEntity(ProfessorUpdateRequest request,
+                                          Professor professor, Endereco endereco, Instituicao instituicao) {
+
+        professor.setNome(request.nome());
+        professor.setDataNascimento(request.dataNascimento());
+        professor.setSexo(request.sexo());
+
+        professor.setTelefone(
+                new Telefone(
+                        request.telefone()
+                    )
+                );
+
+        professor.setEndereco(endereco);
+        professor.setInstituicao(instituicao);
 
     }
 

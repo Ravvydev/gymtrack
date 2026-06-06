@@ -3,9 +3,7 @@ package com.ravvy.gymtrack.controller;
 import com.ravvy.gymtrack.dto.AlunoCreateRequest;
 import com.ravvy.gymtrack.dto.AlunoResponse;
 import com.ravvy.gymtrack.dto.AlunoUpdateRequest;
-import com.ravvy.gymtrack.dto.AlunoUpdateSenha;
-import com.ravvy.gymtrack.dto.mapper.AlunoMapper;
-import com.ravvy.gymtrack.model.Aluno;
+import com.ravvy.gymtrack.dto.UpdateSenha;
 import com.ravvy.gymtrack.service.AlunoService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +13,9 @@ import org.springframework.web.bind.annotation.*;
 public class AlunoController {
 
     private final AlunoService alunoService;
-    private final AlunoMapper alunoMapper;
 
-    public AlunoController(AlunoService alunoService, AlunoMapper alunoMapper) {
+    public AlunoController(AlunoService alunoService) {
         this.alunoService = alunoService;
-        this.alunoMapper = alunoMapper;
     }
 
     @PostMapping
@@ -32,8 +28,7 @@ public class AlunoController {
     @GetMapping("/get/{id}")
     public AlunoResponse getAluno(@PathVariable Long id) {
 
-        Aluno aluno = alunoService.buscarPorId(id);
-        return alunoMapper.toResponse(aluno);
+        return alunoService.toResponse(id);
 
     }
 
@@ -52,7 +47,7 @@ public class AlunoController {
     }
 
     @PutMapping("/update/{id}/senha")
-    public void updateSenhaAluno(@RequestBody @Valid AlunoUpdateSenha request,
+    public void updateSenhaAluno(@RequestBody @Valid UpdateSenha request,
                                  @PathVariable Long id) {
         alunoService.updateSenha(request, id);
     }

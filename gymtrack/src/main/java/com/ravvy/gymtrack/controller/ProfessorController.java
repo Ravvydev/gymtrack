@@ -2,10 +2,9 @@ package com.ravvy.gymtrack.controller;
 
 import com.ravvy.gymtrack.dto.ProfessorCreateRequest;
 import com.ravvy.gymtrack.dto.ProfessorResponse;
-import com.ravvy.gymtrack.dto.mapper.ProfessorMapper;
-import com.ravvy.gymtrack.model.Professor;
+import com.ravvy.gymtrack.dto.ProfessorUpdateRequest;
+import com.ravvy.gymtrack.dto.UpdateSenha;
 import com.ravvy.gymtrack.service.ProfessorService;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,31 +13,38 @@ import org.springframework.web.bind.annotation.*;
 public class ProfessorController {
 
     private final ProfessorService professorService;
-    private final ProfessorMapper professorMapper;
 
-    public ProfessorController(ProfessorService professorService, ProfessorMapper professorMapper) {
+    public ProfessorController(ProfessorService professorService) {
         this.professorService = professorService;
-        this.professorMapper = professorMapper;
     }
 
     @PostMapping
     public void saveProfessor(@RequestBody @Valid ProfessorCreateRequest request) {
-        professorService.save(professorMapper.toEntity(request));
+        professorService.save(
+                professorService.toEntity(request)
+        );
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable @Valid Long id) {
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable Long id) {
         professorService.deleteById(id);
     }
 
-    @GetMapping("/{id}")
-    public ProfessorResponse getProfessor(@PathVariable @Valid Long id) {
+    @GetMapping("/get/{id}")
+    public ProfessorResponse getProfessor(@PathVariable Long id) {
+        return professorService.toResponse(id);
+    }
 
-        Professor professor = professorService.findById(id)
-                .orElseThrow(() ->
-                        new EntityNotFoundException("Professor não encontrado no id " + id));
+    @PutMapping("/update/{id}")
+    public ProfessorResponse update(@RequestBody @Valid ProfessorUpdateRequest request,
+                                    @PathVariable Long id){
+        return professorService.update(request, id);
+    }
 
-        return professorMapper.toResponse(professor);
+    @PutMapping("/update/{id}/senha")
+    public void updateSenha(@RequestBody @Valid UpdateSenha request,
+                            @PathVariable Long id) {
+        professorService.updateSenha(request, id);
     }
 
 }

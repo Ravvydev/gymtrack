@@ -1,10 +1,18 @@
 package com.ravvy.gymtrack.service;
 
+import com.ravvy.gymtrack.dto.ProfessorCreateRequest;
+import com.ravvy.gymtrack.dto.ProfessorResponse;
+import com.ravvy.gymtrack.dto.ProfessorUpdateRequest;
+import com.ravvy.gymtrack.dto.UpdateSenha;
+import com.ravvy.gymtrack.dto.mapper.ProfessorMapper;
 import com.ravvy.gymtrack.model.Aluno;
 import com.ravvy.gymtrack.model.Avaliacao;
+import com.ravvy.gymtrack.model.Instituicao;
 import com.ravvy.gymtrack.model.Professor;
 import com.ravvy.gymtrack.repository.ProfessorRepository;
+import com.ravvy.gymtrack.util.Endereco;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,11 +27,17 @@ public class ProfessorService {
     private final ProfessorRepository professorRepository;
     private final AlunoService alunoService;
     private final AvaliacaoService avaliacaoService;
+    private final EnderecoService enderecoService;
+    private final InstituicaoService instituicaoService;
+    private final ProfessorMapper professorMapper;
 
-    public ProfessorService(ProfessorRepository professorRepository, AlunoService alunoService, AvaliacaoService avaliacaoService) {
+    public ProfessorService(ProfessorRepository professorRepository, AlunoService alunoService, AvaliacaoService avaliacaoService, EnderecoService enderecoService, InstituicaoService instituicaoService, ProfessorMapper professorMapper) {
         this.professorRepository = professorRepository;
         this.alunoService = alunoService;
         this.avaliacaoService = avaliacaoService;
+        this.enderecoService = enderecoService;
+        this.instituicaoService = instituicaoService;
+        this.professorMapper = professorMapper;
     }
 
     public void save(Professor professor) {
@@ -63,5 +77,64 @@ public class ProfessorService {
                 orElseThrow(() -> new EntityNotFoundException("Professor não encontrado no id " + id));
     }
 
+    @Transactional
+    public ProfessorResponse update(ProfessorUpdateRequest request,
+                                    Long id) {
+
+        Professor professor = buscarPorId(id);
+
+        Endereco endereco = enderecoService.buscarPorId(
+                request.enderecoId());
+
+        Instituicao instituicao = instituicaoService.buscarPorId(
+                request.instituicaoId());
+
+        professorMapper.updateEntity(
+                request,
+                professor,
+                endereco,
+                instituicao
+        );
+
+        professorRepository.save(professor);
+
+        return professorMapper.toResponse(professor);
+    }
+
+    @Transactional
+    public void updateSenha(UpdateSenha request,
+                           Long id) {
+        Professor professor = buscarPorId(id);
+
+        if (!professor.getEmail().getSenha().equals(request.senhaAtual())){
+            throw new IllegalArgumentException(
+                    "A senha atual está incorreta");
+        }
+
+        professor.getEmail().setSenha(request.senhaNova());
+
+    }
+
+    @Transactional
+    public Professor toEntity(ProfessorCreateRequest request) {
+
+        Endereco endereco = enderecoService.buscarPorId(
+                request.enderecoId());
+
+        Instituicao instituicao = instituicaoService.buscarPorId(
+                request.instituicaoId());
+
+        return professorMapper.toEntity(
+                request,
+                endereco,
+                instituicao
+        );
+
+    }
+    @Transactional
+    public ProfessorResponse toResponse(Long id) {
+        Professor professor = buscarPorId(id);
+        return professorMapper.toResponse(professor);
+    }
 
 }

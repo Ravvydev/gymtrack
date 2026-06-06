@@ -2,7 +2,8 @@ package com.ravvy.gymtrack.controller;
 
 import com.ravvy.gymtrack.dto.InstituicaoCreateRequest;
 import com.ravvy.gymtrack.dto.InstituicaoResponse;
-import com.ravvy.gymtrack.dto.mapper.InstituicaoMapper;
+import com.ravvy.gymtrack.dto.InstituicaoUpdateRequest;
+import com.ravvy.gymtrack.dto.UpdateSenha;
 import com.ravvy.gymtrack.model.Instituicao;
 import com.ravvy.gymtrack.service.InstituicaoService;
 import jakarta.validation.Valid;
@@ -15,22 +16,21 @@ import java.util.List;
 public class InstituicaoController {
 
     private final InstituicaoService instituicaoService;
-    private final InstituicaoMapper instituicaoMapper;
 
-    public InstituicaoController(InstituicaoService instituicaoService, InstituicaoMapper instituicaoMapper) {
+    public InstituicaoController(InstituicaoService instituicaoService) {
         this.instituicaoService = instituicaoService;
-        this.instituicaoMapper = instituicaoMapper;
     }
 
     @PostMapping("/save")
     private void saveInstituicao(@RequestBody @Valid InstituicaoCreateRequest request){
-        instituicaoService.save(instituicaoMapper.toEntity(request));
+        instituicaoService.save(
+                instituicaoService.toEntity(request)
+        );
     }
 
     @GetMapping("/{id}")
-    private InstituicaoResponse getInstituicao(@PathVariable @Valid Long id){
-        Instituicao instituicao = instituicaoService.buscarPorId(id);
-        return instituicaoMapper.toResponse(instituicao);
+    private InstituicaoResponse getInstituicao(@PathVariable Long id){
+        return instituicaoService.toResponse(id);
     }
     @GetMapping("/listar-instituições")
     public List<Instituicao> listarTodosInstituicao() {
@@ -38,8 +38,20 @@ public class InstituicaoController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public  void deleteInstituicao(@PathVariable @Valid Long id){
+    public  void deleteInstituicao(@PathVariable Long id){
         instituicaoService.deleteById(id);
+    }
+
+    @PutMapping("/{id}")
+    public InstituicaoResponse update(@RequestBody @Valid InstituicaoUpdateRequest request,
+                                      @PathVariable Long id) {
+        return instituicaoService.update(request, id);
+    }
+
+    @PutMapping("/{id}/senha")
+    public void updateSenha(@RequestBody @Valid UpdateSenha request,
+                            @PathVariable Long id) {
+        instituicaoService.updateSenha(request, id);
     }
 
 }

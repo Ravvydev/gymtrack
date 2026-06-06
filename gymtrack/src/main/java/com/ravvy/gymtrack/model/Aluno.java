@@ -40,9 +40,6 @@ public class Aluno {
     @Embedded
     private Email email;
 
-    @Column(name = "senha", nullable = false, unique = true)
-    private String senha;
-
     @Embedded
     private Telefone telefone;
 
