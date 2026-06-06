@@ -1,5 +1,6 @@
 package com.ravvy.gymtrack.controller;
 
+import com.ravvy.gymtrack.dto.AvaliacaoUploadRequest;
 import com.ravvy.gymtrack.model.Avaliacao;
 import com.ravvy.gymtrack.service.AvaliacaoService;
 import jakarta.validation.Valid;
@@ -28,6 +29,12 @@ public class AvaliacaoController {
     @DeleteMapping("/delete/{id}")
     public void deleteAvaliacao(@PathVariable @Valid Long id) {
         avaliacaoService.deleteById(id);
+    }
+
+    @PutMapping("/{id}")
+    public Avaliacao upload(@RequestBody @Valid AvaliacaoUploadRequest request,
+                            @PathVariable Long id) {
+        return avaliacaoService.upload(request, id);
     }
 
 }

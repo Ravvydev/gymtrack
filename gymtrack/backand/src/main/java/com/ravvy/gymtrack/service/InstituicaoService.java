@@ -39,13 +39,10 @@ public class InstituicaoService {
         this.instituicaoMapper = instituicaoMapper;
     }
 
-    public void save(Instituicao instituicao) {
-
-        if (instituicao == null) {
-            throw new IllegalArgumentException("A instituição não pode ser nulo");
-        }
-
-        instituicaoRepository.save(instituicao);
+    public InstituicaoResponse save(InstituicaoCreateRequest request) {
+        Instituicao instituicao = toEntity(request);
+        Instituicao instituicaoSalva =  instituicaoRepository.save(instituicao);
+        return toResponse(instituicaoSalva);
     }
 
     public void deleteById(Long id) {
@@ -135,8 +132,7 @@ public class InstituicaoService {
     }
 
     @Transactional
-    public InstituicaoResponse toResponse(Long id) {
-        Instituicao instituicao = buscarPorId(id);
+    public InstituicaoResponse toResponse(Instituicao instituicao) {;
         return instituicaoMapper.toResponse(instituicao);
     }
 

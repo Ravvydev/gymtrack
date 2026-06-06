@@ -4,6 +4,7 @@ import com.ravvy.gymtrack.dto.AlunoCreateRequest;
 import com.ravvy.gymtrack.dto.AlunoResponse;
 import com.ravvy.gymtrack.dto.AlunoUpdateRequest;
 import com.ravvy.gymtrack.dto.UpdateSenha;
+import com.ravvy.gymtrack.model.Aluno;
 import com.ravvy.gymtrack.service.AlunoService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -19,34 +20,32 @@ public class AlunoController {
     }
 
     @PostMapping
-    public void saveAluno(@RequestBody AlunoCreateRequest requestDTO) {
-        alunoService.save(
-                alunoService.toEntity(requestDTO)
-        );
+    public AlunoResponse saveAluno(@RequestBody AlunoCreateRequest request) {
+        return alunoService.save(request);
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/{id}")
     public AlunoResponse getAluno(@PathVariable Long id) {
 
-        return alunoService.toResponse(id);
+        Aluno aluno = alunoService.buscarPorId(id);
+        return alunoService.toResponse(aluno);
 
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void deleteAluno(@PathVariable Long id) {
         alunoService.deleteById(id);
     }
 
-    @PutMapping("/update/{id}")
-    public void updateAluno(@PathVariable Long idAlunoExistente,
-                            @RequestBody @Valid
-                                    AlunoUpdateRequest alunoAtualizadoRequest) {
+    @PutMapping("/{id}")
+    public void updateAluno(@RequestBody @Valid AlunoUpdateRequest request,
+                            @PathVariable Long id) {
 
-        alunoService.update(idAlunoExistente, alunoAtualizadoRequest);
+        alunoService.update(request, id);
 
     }
 
-    @PutMapping("/update/{id}/senha")
+    @PutMapping("/{id}/senha")
     public void updateSenhaAluno(@RequestBody @Valid UpdateSenha request,
                                  @PathVariable Long id) {
         alunoService.updateSenha(request, id);

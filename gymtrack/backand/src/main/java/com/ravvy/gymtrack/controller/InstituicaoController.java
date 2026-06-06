@@ -23,14 +23,13 @@ public class InstituicaoController {
 
     @PostMapping("/save")
     private void saveInstituicao(@RequestBody @Valid InstituicaoCreateRequest request){
-        instituicaoService.save(
-                instituicaoService.toEntity(request)
-        );
+        instituicaoService.save(request);
     }
 
     @GetMapping("/{id}")
     private InstituicaoResponse getInstituicao(@PathVariable Long id){
-        return instituicaoService.toResponse(id);
+        Instituicao instituicao = instituicaoService.buscarPorId(id);
+        return instituicaoService.toResponse(instituicao);
     }
     @GetMapping("/listar-instituições")
     public List<Instituicao> listarTodosInstituicao() {

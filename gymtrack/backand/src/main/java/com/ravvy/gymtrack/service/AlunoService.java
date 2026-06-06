@@ -32,13 +32,12 @@ public class AlunoService {
         this.alunoMapper = alunoMapper;
     }
 
-    public void save(Aluno aluno) {
+    public AlunoResponse save(AlunoCreateRequest request) {
 
-       if (aluno == null) {
-           throw new IllegalArgumentException("O aluno não pode ser nulo");
-       }
+       Aluno aluno = toEntity(request);
+       Aluno alunoSalvo = alunoRepository.save(aluno);
+       return toResponse(alunoSalvo);
 
-        alunoRepository.save(aluno);
     }
 
     public void deleteById(Long id) {
@@ -54,7 +53,7 @@ public class AlunoService {
     }
 
     @Transactional
-    public AlunoResponse update(Long id, AlunoUpdateRequest request) {
+    public AlunoResponse update(AlunoUpdateRequest request, Long id) {
 
         Aluno aluno = buscarPorId(id);
 
@@ -77,7 +76,7 @@ public class AlunoService {
 
         alunoRepository.save(aluno);
 
-        return alunoMapper.toResponse(aluno);
+        return toResponse(aluno);
     }
 
     @Transactional
@@ -118,8 +117,7 @@ public class AlunoService {
     }
 
     @Transactional
-    public AlunoResponse toResponse(Long id) {
-        Aluno aluno = buscarPorId(id);
+    public AlunoResponse toResponse(Aluno aluno) {
         return alunoMapper.toResponse(aluno);
     }
 

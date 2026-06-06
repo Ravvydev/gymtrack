@@ -4,6 +4,7 @@ import com.ravvy.gymtrack.dto.ProfessorCreateRequest;
 import com.ravvy.gymtrack.dto.ProfessorResponse;
 import com.ravvy.gymtrack.dto.ProfessorUpdateRequest;
 import com.ravvy.gymtrack.dto.UpdateSenha;
+import com.ravvy.gymtrack.model.Professor;
 import com.ravvy.gymtrack.service.ProfessorService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -20,19 +21,18 @@ public class ProfessorController {
 
     @PostMapping
     public void saveProfessor(@RequestBody @Valid ProfessorCreateRequest request) {
-        professorService.save(
-                professorService.toEntity(request)
-        );
+        professorService.save(request);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         professorService.deleteById(id);
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/{id}")
     public ProfessorResponse getProfessor(@PathVariable Long id) {
-        return professorService.toResponse(id);
+        Professor professor = professorService.buscarPorId(id);
+        return professorService.toResponse(professor);
     }
 
     @PutMapping("/update/{id}")

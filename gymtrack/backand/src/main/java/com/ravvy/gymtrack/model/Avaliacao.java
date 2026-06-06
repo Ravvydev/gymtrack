@@ -1,5 +1,6 @@
 package com.ravvy.gymtrack.model;
 
+import com.ravvy.gymtrack.service.YearOldService;
 import com.ravvy.gymtrack.util.TipoClassificacao;
 import com.ravvy.gymtrack.util.TipoSexoBiologico;
 import jakarta.persistence.*;
@@ -8,6 +9,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,8 +27,8 @@ public class Avaliacao {
     @JoinColumn(name = "aluno_id")
     private Aluno aluno;
 
-    @Column(name = "idade_aluno")
-    private Integer idadeAluno;
+    @Column(name = "idade")
+    private Integer idade;
 
     @ManyToOne
     @JoinColumn(name = "professor_id")
@@ -35,10 +37,6 @@ public class Avaliacao {
     @Enumerated(EnumType.STRING)
     @Column(name = "sexo_Aluno", nullable = false)
     private TipoSexoBiologico sexo;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "classificacao",  nullable = false)
-    private TipoClassificacao tipoClassificacao;
 
     @Column(name = "DataDaAvaliacao", nullable = false)
     private LocalDateTime dataAvaliacao;

@@ -40,13 +40,12 @@ public class ProfessorService {
         this.professorMapper = professorMapper;
     }
 
-    public void save(Professor professor) {
+    public ProfessorResponse save(ProfessorCreateRequest request) {
 
-        if (professor == null) {
-            throw new IllegalArgumentException("Professor não pode ser nulo");
-        }
+        Professor professor = toEntity(request);
+        Professor professorSalvo = professorRepository.save(professor);
+        return toResponse(professorSalvo);
 
-        professorRepository.save(professor);
     }
 
     public void deleteById(Long id) {
@@ -70,6 +69,7 @@ public class ProfessorService {
         avaliacaoService.salvar(avaliacao);
 
         return avaliacao;
+
     }
 
     public Professor buscarPorId(Long id) {
@@ -132,8 +132,7 @@ public class ProfessorService {
 
     }
     @Transactional
-    public ProfessorResponse toResponse(Long id) {
-        Professor professor = buscarPorId(id);
+    public ProfessorResponse toResponse(Professor professor) {
         return professorMapper.toResponse(professor);
     }
 
