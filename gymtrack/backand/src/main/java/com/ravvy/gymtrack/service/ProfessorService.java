@@ -1,9 +1,6 @@
 package com.ravvy.gymtrack.service;
 
-import com.ravvy.gymtrack.dto.ProfessorCreateRequest;
-import com.ravvy.gymtrack.dto.ProfessorResponse;
-import com.ravvy.gymtrack.dto.ProfessorUpdateRequest;
-import com.ravvy.gymtrack.dto.UpdateSenha;
+import com.ravvy.gymtrack.dto.*;
 import com.ravvy.gymtrack.dto.mapper.ProfessorMapper;
 import com.ravvy.gymtrack.model.Aluno;
 import com.ravvy.gymtrack.model.Avaliacao;
@@ -18,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -51,25 +49,6 @@ public class ProfessorService {
     public void deleteById(Long id) {
         Professor professor = buscarPorId(id);
         professorRepository.delete(professor);
-    }
-
-    public Optional<Professor> findById(long id) {
-        return professorRepository.findById(id);
-    }
-
-    public Avaliacao registrarAvaliacao(Long idAluno, Double peso, Double altura, Double perimetroCintura) {
-
-        Aluno aluno = alunoService.buscarPorId(idAluno);
-
-        Avaliacao avaliacao = new Avaliacao();
-        avaliacao.setAluno(aluno);
-        avaliacao.setPeso(peso);
-        avaliacao.setAltura(altura);
-        avaliacao.setPerimetroCintura(perimetroCintura);
-        avaliacaoService.salvar(avaliacao);
-
-        return avaliacao;
-
     }
 
     public Professor buscarPorId(Long id) {
@@ -134,6 +113,24 @@ public class ProfessorService {
     @Transactional
     public ProfessorResponse toResponse(Professor professor) {
         return professorMapper.toResponse(professor);
+    }
+
+    @Transactional
+    public void vincularAluno(Long idProfessor,
+                              Long idAluno) {
+
+        Professor professor = buscarPorId(idProfessor);
+        Aluno aluno = alunoService.buscarPorId(idAluno);
+
+        if (aluno.getProfessor() != null) {
+            throw new IllegalArgumentException(
+                    "O aluno já está vinculado ao professor"
+            );
+        }
+
+        professor.getAlunos().add(aluno);
+        aluno.setProfessor(professor);
+
     }
 
 }

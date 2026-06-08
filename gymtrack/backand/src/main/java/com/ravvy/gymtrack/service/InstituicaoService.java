@@ -50,23 +50,38 @@ public class InstituicaoService {
         instituicaoRepository.delete(instituicao);
     }
 
-    public void adicionarAlunoEmInstituicao(Long idAluno, Long idInstituicao) {
+    @Transactional
+    public void vincularAlunoInstituicao(Long idInstituicao, Long idAluno) {
 
-        Aluno aluno = alunoService.buscarPorId(idAluno);
         Instituicao instituicao = buscarPorId(idInstituicao);
+        Aluno aluno = alunoService.buscarPorId(idAluno);
+
+        if (aluno.getInstituicao() != null) {
+            throw new IllegalArgumentException(
+                    "O aluno já está vinculado a instituição: " + aluno.getInstituicao().getNome()
+            );
+        }
 
         instituicao.getAlunos().add(aluno);
+        aluno.setInstituicao(instituicao);
         instituicaoRepository.save(instituicao);
     }
 
-    public void adicionarProfessorEmInstituicao(Long idProfessor,
-                                                Long idInstituicao) {
-
-        Professor professor = professorService.buscarPorId(idProfessor);
+    @Transactional
+    public void vincularProfessorInstituicao(Long idInstituicao,
+                                             Long idProfessor) {
 
         Instituicao instituicao = buscarPorId(idInstituicao);
+        Professor professor = professorService.buscarPorId(idProfessor);
+
+        if (professor.getInstituicao() != null) {
+            throw new IllegalArgumentException(
+                    "O professor já está vinculado a instituição: " + professor.getInstituicao().getNome()
+            );
+        }
 
         instituicao.getProfessores().add(professor);
+        professor.setInstituicao(instituicao);
         instituicaoRepository.save(instituicao);
     }
 

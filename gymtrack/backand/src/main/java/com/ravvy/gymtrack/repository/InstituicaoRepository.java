@@ -14,4 +14,6 @@ public interface InstituicaoRepository extends JpaRepository<Instituicao, Long> 
 
     List<Professor> findAllTodosProfessores();
 
+
+
 }

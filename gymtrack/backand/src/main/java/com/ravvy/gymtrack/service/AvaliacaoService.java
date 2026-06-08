@@ -1,19 +1,22 @@
 package com.ravvy.gymtrack.service;
 
-import com.ravvy.gymtrack.dto.mapper.AvaliacaoMapper;
+import com.ravvy.gymtrack.dto.AvaliacaoCreatedRequest;
+import com.ravvy.gymtrack.dto.AvaliacaoResponse;
 import com.ravvy.gymtrack.dto.AvaliacaoUploadRequest;
+import com.ravvy.gymtrack.dto.mapper.AvaliacaoMapper;
 import com.ravvy.gymtrack.model.Aluno;
 import com.ravvy.gymtrack.model.Avaliacao;
 import com.ravvy.gymtrack.model.Professor;
 import com.ravvy.gymtrack.repository.AvaliacaoRepository;
 import com.ravvy.gymtrack.util.TipoClassificacao;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @Getter
@@ -34,52 +37,53 @@ public class AvaliacaoService {
         this.avaliacaoMapper = avaliacaoMapper;
     }
 
-    public void salvar(Avaliacao avaliacao) {
+    @Transactional
+    public AvaliacaoResponse criar(AvaliacaoCreatedRequest request) {
 
-        if (avaliacao == null) {
-            throw new IllegalStateException("Avaliação não pode ser nula!");
-        }
-
-        if (avaliacao.getAluno() == null) {
-            throw new IllegalStateException("O aluno não pode ser nulo!");
-        }
+        Avaliacao avaliacao = new Avaliacao();
+        Aluno aluno = alunoService.buscarPorId(request.alunoId());
+        Professor professor = professorService.buscarPorId(request.professorId());
 
         Double imc = calcularIMC(
-                avaliacao.getPeso(),
-                avaliacao.getAltura()
+                request.peso(),
+                request.altura()
         );
-
-        avaliacao.setImc(imc);
-
         Double rce = calcularRCE(
-                avaliacao.getPerimetroCintura(),
-                avaliacao.getAltura()
+                request.perimetroCintura(),
+                request.altura()
         );
-
-        avaliacao.setRce(rce);
-
-        avaliacao.setDataAvaliacao(LocalDateTime.now());
 
         TipoClassificacao classificacao =
-                calcularTipoClassificacao(avaliacao.getAluno() , imc);
+                calcularTipoClassificacao(aluno , imc);
 
-        avaliacao.setZona(classificacao);
+        avaliacaoMapper.toEntity(
+                request,
+                avaliacao,
+                aluno,
+                professor,
+                imc,
+                rce,
+                classificacao
+        );
 
         avaliacaoRepository.save(avaliacao);
 
+        return avaliacaoMapper.toResponse(avaliacao);
     }
 
+    @Transactional(readOnly = true)
     public void deleteById(Long id) {
         Avaliacao avaliacao = buscarPorId(id);
         avaliacaoRepository.delete(avaliacao);
     }
 
+    @Transactional(readOnly = true)
     public Avaliacao buscarPorId(Long id) {
         return avaliacaoRepository.findById(id)
                 .orElseThrow(()
                         -> new EntityNotFoundException("Avaliação não encontrada no id " + id));
-    }
 
+    }
 
     @Transactional
     public Avaliacao upload(AvaliacaoUploadRequest request,
@@ -118,12 +122,25 @@ public class AvaliacaoService {
         return avaliacaoRepository.save(avaliacao);
     }
 
-    private Double calcularIMC(Double peso, Double altura) {
-        return peso / (altura * altura);
+    @Transactional
+    public AvaliacaoResponse toResponse(Avaliacao avaliacao) {
+        return avaliacaoMapper.toResponse(avaliacao);
     }
 
-    private Double calcularRCE(Double perimetroCintura, Double altura) {
-        return perimetroCintura / altura;
+    public List<AvaliacaoResponse> buscarAvaliacoesPorData(
+            Long professorId,
+            LocalDate dataCriacao) {
+
+        if (dataCriacao.isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException(
+                    "A data informada deve estar no passado!"
+            );
+        }
+
+        return avaliacaoRepository.findByProfessorIdAndDataCriacao(
+                professorId,
+                dataCriacao
+        );
     }
 
     private TipoClassificacao calcularTipoClassificacao(Aluno aluno, Double imc) {
@@ -132,6 +149,14 @@ public class AvaliacaoService {
                                 YearOldService.calcularIdade(aluno.getDataNascimento()),
                                 imc
                         );
+    }
+
+    private Double calcularIMC(Double peso, Double altura) {
+        return peso / (altura * altura);
+    }
+
+    private Double calcularRCE(Double perimetroCintura, Double altura) {
+        return perimetroCintura / altura;
     }
 
 }

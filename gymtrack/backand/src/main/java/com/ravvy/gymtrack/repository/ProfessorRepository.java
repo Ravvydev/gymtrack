@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProfessorRepository extends JpaRepository<Professor, Long> {
 
-    void adicionarProfessorEmInstituicao(Long idInstituicao);
+    void adicionarProfessorInstituicao(Long idInstituicao);
+
 
 }

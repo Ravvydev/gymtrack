@@ -9,8 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,7 +25,7 @@ public class Aluno {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nome",length = 100,  nullable = false)
+    @Column(name = "nome", length = 100, nullable = false)
     private String nome;
 
     @Column(name = "data_nascimento", nullable = false)
@@ -44,7 +42,7 @@ public class Aluno {
     private Telefone telefone;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "endereco_id",  nullable = false)
+    @JoinColumn(name = "endereco_id", nullable = false)
     private Endereco endereco;
 
     @Column(name = "cpf", length = 11,
@@ -59,7 +57,7 @@ public class Aluno {
     @JoinColumn(name = "instituicao_id")
     private Instituicao instituicao;
 
-    @OneToMany(mappedBy = "aluno",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "aluno", fetch = FetchType.LAZY)
     private List<Avaliacao> avaliacoes;
 
 }

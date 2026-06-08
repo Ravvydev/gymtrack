@@ -21,23 +21,24 @@ public class InstituicaoController {
         this.instituicaoService = instituicaoService;
     }
 
-    @PostMapping("/save")
-    private void saveInstituicao(@RequestBody @Valid InstituicaoCreateRequest request){
+    @PostMapping
+    private void saveInstituicao(@RequestBody @Valid InstituicaoCreateRequest request) {
         instituicaoService.save(request);
     }
 
     @GetMapping("/{id}")
-    private InstituicaoResponse getInstituicao(@PathVariable Long id){
+    private InstituicaoResponse getInstituicao(@PathVariable Long id) {
         Instituicao instituicao = instituicaoService.buscarPorId(id);
         return instituicaoService.toResponse(instituicao);
     }
+
     @GetMapping("/listar-instituições")
     public List<Instituicao> listarTodosInstituicao() {
         return instituicaoService.listarTodosInstituicao();
     }
 
-    @DeleteMapping("/delete/{id}")
-    public  void deleteInstituicao(@PathVariable Long id){
+    @DeleteMapping("/{id}")
+    public void deleteInstituicao(@PathVariable Long id) {
         instituicaoService.deleteById(id);
     }
 
@@ -51,6 +52,19 @@ public class InstituicaoController {
     public void updateSenha(@RequestBody @Valid UpdateSenha request,
                             @PathVariable Long id) {
         instituicaoService.updateSenha(request, id);
+    }
+
+    @PutMapping("/{idInstituicao}/aluno/{idAluno}")
+    public void vincularAluno(@PathVariable Long idInstituicao,
+                              @PathVariable Long idAluno) {
+        instituicaoService.vincularAlunoInstituicao(idInstituicao, idAluno);
+    }
+
+    @PutMapping("/{idInstituicao}/aluno/{idProfessor}")
+    public void vincularProfessor(@PathVariable Long idInstituicao,
+                                  @PathVariable Long idProfessor) {
+
+        instituicaoService.vincularProfessorInstituicao(idInstituicao, idProfessor);
     }
 
 }

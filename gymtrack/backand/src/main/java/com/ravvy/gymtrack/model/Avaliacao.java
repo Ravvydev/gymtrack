@@ -39,7 +39,7 @@ public class Avaliacao {
     private TipoSexoBiologico sexo;
 
     @Column(name = "DataDaAvaliacao", nullable = false)
-    private LocalDateTime dataAvaliacao;
+    private LocalDate dataAvaliacao;
 
     @Column(name = "peso",  nullable = false)
     @NotNull

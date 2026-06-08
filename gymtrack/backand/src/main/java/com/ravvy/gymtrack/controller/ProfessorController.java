@@ -35,16 +35,22 @@ public class ProfessorController {
         return professorService.toResponse(professor);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ProfessorResponse update(@RequestBody @Valid ProfessorUpdateRequest request,
                                     @PathVariable Long id){
         return professorService.update(request, id);
     }
 
-    @PutMapping("/update/{id}/senha")
+    @PutMapping("/{id}/senha")
     public void updateSenha(@RequestBody @Valid UpdateSenha request,
                             @PathVariable Long id) {
         professorService.updateSenha(request, id);
+    }
+
+    @PutMapping("/{idProfessor}/alunos/{idAluno}")
+    public void vincularAluno(@PathVariable Long idProfessor,
+                              @PathVariable Long idAluno) {
+        professorService.vincularAluno(idProfessor, idAluno);
     }
 
 }
