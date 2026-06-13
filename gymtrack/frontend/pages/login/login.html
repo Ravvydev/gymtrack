@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela de Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div class="container">
+
+        <div class="login-box">
+            <h1>Bem-vindo</h1>
+            <p>Entre com as suas credenciais para acessar o sistema.</p>
+
+            <!--Formulário-->
+            <form>
+
+                <!--Grupo do e-mail-->
+                <div class="input-group">
+                    <label for="email">E-mail:</label>
+                    
+                    <input 
+                        type="email"
+                        id="email"
+                        placeholder="Digite seu e-mail"
+                        required
+                    >
+                        
+                </div>
+
+                <!--Grupo da senha-->
+                <div class="input-group">
+                    <label for="password">Senha:</label>
+
+                    <input 
+                        type="password"
+                        id="password"
+                        placeholder="Digite sua senha"
+                        required
+                    >
+                </div>
+
+                <!-- Linha inferior -->
+                <div class="options">
+
+                    <!-- Checkbox -->
+                    <div class="remember">
+                        <input type="checkbox" id="lembrar">
+
+                        <label for="lembrar">Lembrar-me</label>
+                    </div>
+
+                    <!-- Recuperar a senha -->
+                    <a href="#">Esqueceu a senha?</a>
+                </div>
+
+                <!-- Botão -->
+                <button type="submit">
+                    Entrar
+                </button>
+            </form>
+
+            <div class="register">
+                Não possui conta? <a href="#">Cadastre-se</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
