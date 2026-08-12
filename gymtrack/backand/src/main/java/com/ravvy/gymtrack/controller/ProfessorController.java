@@ -4,7 +4,6 @@ import com.ravvy.gymtrack.dto.ProfessorCreateRequest;
 import com.ravvy.gymtrack.dto.ProfessorResponse;
 import com.ravvy.gymtrack.dto.ProfessorUpdateRequest;
 import com.ravvy.gymtrack.dto.UpdateSenha;
-import com.ravvy.gymtrack.model.Professor;
 import com.ravvy.gymtrack.service.ProfessorService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +30,7 @@ public class ProfessorController {
 
     @GetMapping("/{id}")
     public ProfessorResponse getProfessor(@PathVariable Long id) {
-        Professor professor = professorService.buscarPorId(id);
-        return professorService.toResponse(professor);
+        return professorService.buscarResponsePorId(id);
     }
 
     @PutMapping("/{id}")

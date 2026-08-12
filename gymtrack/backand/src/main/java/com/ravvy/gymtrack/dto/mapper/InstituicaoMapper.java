@@ -4,7 +4,6 @@ import com.ravvy.gymtrack.dto.InstituicaoCreateRequest;
 import com.ravvy.gymtrack.dto.InstituicaoResponse;
 import com.ravvy.gymtrack.dto.InstituicaoUpdateRequest;
 import com.ravvy.gymtrack.model.Instituicao;
-import com.ravvy.gymtrack.service.EnderecoService;
 import com.ravvy.gymtrack.util.Email;
 import com.ravvy.gymtrack.util.Endereco;
 import com.ravvy.gymtrack.util.Telefone;
@@ -36,8 +35,8 @@ public class InstituicaoMapper {
     }
 
     public void updateEntity(InstituicaoUpdateRequest request,
-                                            Instituicao instituicao,
-                                            Endereco endereco) {
+                             Instituicao instituicao,
+                             Endereco endereco) {
 
         instituicao.setNome(request.nome());
         instituicao.setTelefone(new Telefone(

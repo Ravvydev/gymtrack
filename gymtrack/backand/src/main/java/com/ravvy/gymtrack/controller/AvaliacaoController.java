@@ -32,9 +32,8 @@ public class AvaliacaoController {
     }
 
     @GetMapping("/{id}")
-    public AvaliacaoResponse getAvaliacao(@PathVariable @Valid Long id) {
-        Avaliacao avaliacao = avaliacaoService.buscarPorId(id);
-        return avaliacaoService.toResponse(avaliacao);
+    public AvaliacaoResponse getAvaliacao(@PathVariable Long id) {
+        return avaliacaoService.buscarResponsePorId(id);
     }
 
     @GetMapping("/{idProfessor}/data/{dataCriacao}")
@@ -60,8 +59,10 @@ public class AvaliacaoController {
     }
 
     @PutMapping("/{id}")
-    public Avaliacao upload(@RequestBody @Valid AvaliacaoUploadRequest request,
-                            @PathVariable Long id) {
+    public AvaliacaoResponse upload(
+            @RequestBody @Valid AvaliacaoUploadRequest request,
+            @PathVariable Long id
+    ) {
         return avaliacaoService.upload(request, id);
     }
 

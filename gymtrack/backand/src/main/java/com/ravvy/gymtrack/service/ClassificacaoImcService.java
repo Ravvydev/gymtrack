@@ -1,5 +1,6 @@
 package com.ravvy.gymtrack.service;
 
+import com.ravvy.gymtrack.exception.RegraDeNegocioExeption;
 import com.ravvy.gymtrack.util.FaixaIMC;
 import com.ravvy.gymtrack.util.TipoClassificacao;
 import com.ravvy.gymtrack.util.TipoSexoBiologico;
@@ -44,7 +45,7 @@ public class ClassificacaoImcService {
         feminino.put(14, new FaixaIMC(22.0));
         feminino.put(15, new FaixaIMC(22.4));
         feminino.put(16, new FaixaIMC(24.0));
-        feminino.put(17, new FaixaIMC(25.0));
+        feminino.put(17, new FaixaIMC(24.0));
 
         TABELA_IMC.put(TipoSexoBiologico.MASCULINO, masculino);
         TABELA_IMC.put(TipoSexoBiologico.FEMININO, feminino);
@@ -56,21 +57,46 @@ public class ClassificacaoImcService {
             Double imc
     ) {
 
+        if (sexo == null) {
+            throw new RegraDeNegocioExeption(
+                    "O sexo biológico não pode ser nulo."
+            );
+        }
+
+        if (idade == null || idade < 6 || idade > 17) {
+            throw new RegraDeNegocioExeption(
+                    "A idade deve estar entre 6 e 17 anos."
+            );
+        }
+
+        if (imc == null || imc <= 0) {
+            throw new RegraDeNegocioExeption(
+                    "O IMC deve ser maior que zero."
+            );
+        }
+
         Map<Integer, FaixaIMC> tabelaSexo =
                 TABELA_IMC.get(sexo);
 
         if (tabelaSexo == null) {
-            throw new RuntimeException("Sexo inválido");
+            throw new RegraDeNegocioExeption(
+                    "Sexo biológico inválido para classificação do IMC."
+            );
         }
 
         FaixaIMC faixa = tabelaSexo.get(idade);
 
         if (faixa == null) {
-            throw new RuntimeException("Idade inválida");
+            throw new RegraDeNegocioExeption(
+                    "Não existe referência de IMC para "
+                            + sexo
+                            + ", idade "
+                            + idade
+            );
         }
 
-        if (imc >= faixa.getMaximo()) {
-            return TipoClassificacao.ZONA_RISCO;
+        if (imc > faixa.getMaximo()) {
+            return TipoClassificacao.ZONA_DE_RISCO;
         }
 
         return TipoClassificacao.ZONA_SAUDAVEL;

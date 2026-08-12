@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,10 +20,10 @@ public class Instituicao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 50,  nullable = false)
+    @Column(length = 50, nullable = false)
     private String nome;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
 
@@ -33,9 +34,8 @@ public class Instituicao {
     private Email email;
 
     @OneToMany(mappedBy = "instituicao", fetch = FetchType.LAZY)
-    private List<Aluno> alunos;
+    private List<Aluno> alunos = new ArrayList<>();
 
     @OneToMany(mappedBy = "instituicao", fetch = FetchType.LAZY)
-    private List<Professor> professores;
-
+    private List<Professor> professores = new ArrayList<>();
 }

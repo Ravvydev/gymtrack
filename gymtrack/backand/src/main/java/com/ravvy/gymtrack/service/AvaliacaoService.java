@@ -15,6 +15,8 @@ import lombok.Setter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -25,13 +27,15 @@ public class AvaliacaoService {
 
     private final AvaliacaoRepository avaliacaoRepository;
     private final ClassificacaoImcService  classificacaoImcService;
+    private final ClassificacaoRceService classificacaoRceService;
     private final AlunoService alunoService;
     private final ProfessorService professorService;
     private final AvaliacaoMapper avaliacaoMapper;
 
-    public AvaliacaoService(AvaliacaoRepository avaliacaoRepository, ClassificacaoImcService classificacaoImcService, AlunoService alunoService, ProfessorService professorService, AvaliacaoMapper avaliacaoMapper) {
+    public AvaliacaoService(AvaliacaoRepository avaliacaoRepository, ClassificacaoImcService classificacaoImcService, ClassificacaoRceService classificacaoRceService, AlunoService alunoService, ProfessorService professorService, AvaliacaoMapper avaliacaoMapper) {
         this.avaliacaoRepository = avaliacaoRepository;
         this.classificacaoImcService = classificacaoImcService;
+        this.classificacaoRceService = classificacaoRceService;
         this.alunoService = alunoService;
         this.professorService = professorService;
         this.avaliacaoMapper = avaliacaoMapper;
@@ -53,17 +57,22 @@ public class AvaliacaoService {
                 request.altura()
         );
 
-        TipoClassificacao classificacao =
-                calcularTipoClassificacao(aluno , imc);
+        TipoClassificacao classificacaoImc =
+                calcularClassificacaoImc(aluno, imc);
 
-        avaliacaoMapper.toEntity(
+        TipoClassificacao classificacaoRce =
+                classificacaoRceService.classificar(rce);
+
+        avaliacaoMapper
+                .toEntity(
                 request,
                 avaliacao,
                 aluno,
                 professor,
                 imc,
                 rce,
-                classificacao
+                classificacaoImc,
+                classificacaoRce
         );
 
         avaliacaoRepository.save(avaliacao);
@@ -86,8 +95,10 @@ public class AvaliacaoService {
     }
 
     @Transactional
-    public Avaliacao upload(AvaliacaoUploadRequest request,
-                            Long id) {
+    public AvaliacaoResponse upload(
+            AvaliacaoUploadRequest request,
+            Long id
+    ) {
 
         Avaliacao avaliacao = buscarPorId(id);
 
@@ -106,20 +117,36 @@ public class AvaliacaoService {
                 professor
         );
 
-        avaliacao.setImc(
-                calcularIMC(request.peso() , request.altura())
+        Double imc = calcularIMC(
+                request.peso(),
+                request.altura()
         );
 
-        avaliacao.setRce(
-                calcularRCE(request.perimetroCintura(), request.altura())
+        Double rce = calcularRCE(
+                request.perimetroCintura(),
+                request.altura()
         );
 
-        avaliacao.setZona(
-                calcularTipoClassificacao(aluno,
-                        calcularIMC(request.peso(), request.altura()))
+        avaliacao.setImc(imc);
+        avaliacao.setRce(rce);
+
+        avaliacao.setClassificacaoImc(
+                calcularClassificacaoImc(
+                        aluno,
+                        imc
+                )
         );
 
-        return avaliacaoRepository.save(avaliacao);
+        avaliacao.setClassificacaoRce(
+                classificacaoRceService.classificar(rce)
+        );
+
+        Avaliacao avaliacaoSalva =
+                avaliacaoRepository.save(avaliacao);
+
+        return avaliacaoMapper.toResponse(
+                avaliacaoSalva
+        );
     }
 
     @Transactional
@@ -129,34 +156,66 @@ public class AvaliacaoService {
 
     public List<AvaliacaoResponse> buscarAvaliacoesPorData(
             Long professorId,
-            LocalDate dataCriacao) {
+            LocalDate dataAvaliacao) {
 
-        if (dataCriacao.isAfter(LocalDate.now())) {
+        if (dataAvaliacao.isAfter(LocalDate.now())) {
             throw new IllegalArgumentException(
                     "A data informada deve estar no passado!"
             );
         }
 
-        return avaliacaoRepository.findByProfessorIdAndDataCriacao(
-                professorId,
-                dataCriacao
+        List<Avaliacao> avaliacoes =
+                avaliacaoRepository.findByProfessorIdAndDataAvaliacao(
+                        professorId,
+                        dataAvaliacao
+                );
+
+        return avaliacoes.stream()
+                .map(avaliacaoMapper::toResponse)
+                .toList();
+    }
+
+    private TipoClassificacao calcularClassificacaoImc(
+            Aluno aluno,
+            Double imc
+    ) {
+        return classificacaoImcService.classificar(
+                aluno.getSexo(),
+                YearOldService.calcularIdade(
+                        aluno.getDataNascimento()
+                ),
+                imc
         );
     }
 
-    private TipoClassificacao calcularTipoClassificacao(Aluno aluno, Double imc) {
-        return classificacaoImcService.classificar(
-                                aluno.getSexo(),
-                                YearOldService.calcularIdade(aluno.getDataNascimento()),
-                                imc
-                        );
+    @Transactional(readOnly = true)
+    public AvaliacaoResponse buscarResponsePorId(Long id) {
+
+        Avaliacao avaliacao = avaliacaoRepository.findById(id)
+                .orElseThrow(() ->
+                        new EntityNotFoundException(
+                                "Avaliação não encontrada no id " + id
+                        )
+                );
+
+        return avaliacaoMapper.toResponse(avaliacao);
     }
 
     private Double calcularIMC(Double peso, Double altura) {
-        return peso / (altura * altura);
+
+        double imc = peso / (altura * altura);
+
+        return BigDecimal.valueOf(imc)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
     }
 
     private Double calcularRCE(Double perimetroCintura, Double altura) {
-        return perimetroCintura / altura;
-    }
 
+        double rce = perimetroCintura / (altura * 100);
+
+        return BigDecimal.valueOf(rce)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
+    }
 }

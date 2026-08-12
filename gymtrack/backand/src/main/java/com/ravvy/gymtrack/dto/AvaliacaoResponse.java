@@ -7,8 +7,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public record AvaliacaoResponse(
+
+        @NotNull
+        Long id,
 
         @NotBlank
         String nomeAluno,
@@ -18,9 +22,6 @@ public record AvaliacaoResponse(
 
         @NotNull
         TipoSexoBiologico sexoAluno,
-
-        @NotNull
-        TipoClassificacao zona,
 
         @NotNull
         LocalDate dataAvaliacao,
@@ -46,11 +47,19 @@ public record AvaliacaoResponse(
         Double imc,
 
         @NotNull
+        TipoClassificacao classificacaoImc,
+
+        @NotNull
         @Positive
         Double rce,
 
+        @NotNull
+        TipoClassificacao classificacaoRce,
+
         @NotBlank
-        String nomeProfessor
+        String nomeProfessor,
+
+        List<ResultadoTesteResponse> testesRealizados
 
 ) {
 }

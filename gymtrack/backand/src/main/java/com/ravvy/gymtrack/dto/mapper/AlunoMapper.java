@@ -22,7 +22,9 @@ public class AlunoMapper {
         Aluno aluno = new Aluno();
 
         aluno.setNome(dto.nome());
+
         aluno.setCpf(dto.cpf());
+
         aluno.setSexo(dto.sexo());
         aluno.setDataNascimento(dto.dataNascimento());
 

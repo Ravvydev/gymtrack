@@ -3,25 +3,38 @@ package com.ravvy.gymtrack.dto;
 import com.ravvy.gymtrack.util.Telefone;
 import com.ravvy.gymtrack.util.TipoSexoBiologico;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
 public record ProfessorCreateRequest(
-        @NotBlank String nome,
 
-        @NotBlank LocalDate dataNascimento,
+        @NotBlank
+        String nome,
 
-        @NotBlank TipoSexoBiologico sexo,
+        @NotNull
+        LocalDate dataNascimento,
 
-        @NotBlank String cpf,
+        @NotNull
+        TipoSexoBiologico sexo,
 
-        @NotBlank Telefone telefone,
+        @NotBlank
+        String cpf,
 
-        @NotBlank String email,
+        @NotNull
+        Telefone telefone,
 
-        @NotBlank String senha,
+        @NotBlank
+        String email,
 
-        @NotBlank Long enderecoId,
+        @NotBlank
+        String senha,
 
-        @NotBlank Long instituicaoId
-) {}
+        @NotNull
+        Long enderecoId,
+
+        @NotNull
+        Long instituicaoId
+
+) {
+}

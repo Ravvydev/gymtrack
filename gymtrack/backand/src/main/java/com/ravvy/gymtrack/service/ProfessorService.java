@@ -1,38 +1,34 @@
 package com.ravvy.gymtrack.service;
 
-import com.ravvy.gymtrack.dto.*;
+import com.ravvy.gymtrack.dto.ProfessorCreateRequest;
+import com.ravvy.gymtrack.dto.ProfessorResponse;
+import com.ravvy.gymtrack.dto.ProfessorUpdateRequest;
+import com.ravvy.gymtrack.dto.UpdateSenha;
 import com.ravvy.gymtrack.dto.mapper.ProfessorMapper;
 import com.ravvy.gymtrack.model.Aluno;
-import com.ravvy.gymtrack.model.Avaliacao;
 import com.ravvy.gymtrack.model.Instituicao;
 import com.ravvy.gymtrack.model.Professor;
+import com.ravvy.gymtrack.repository.AlunoRepository;
 import com.ravvy.gymtrack.repository.ProfessorRepository;
 import com.ravvy.gymtrack.util.Endereco;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @Getter
 public class ProfessorService {
 
     private final ProfessorRepository professorRepository;
-    private final AlunoService alunoService;
-    private final AvaliacaoService avaliacaoService;
+    private final AlunoRepository alunoRepository;
     private final EnderecoService enderecoService;
     private final InstituicaoService instituicaoService;
     private final ProfessorMapper professorMapper;
 
-    public ProfessorService(ProfessorRepository professorRepository, AlunoService alunoService, AvaliacaoService avaliacaoService, EnderecoService enderecoService, InstituicaoService instituicaoService, ProfessorMapper professorMapper) {
+    public ProfessorService(ProfessorRepository professorRepository, AlunoRepository alunoRepository, EnderecoService enderecoService, InstituicaoService instituicaoService, ProfessorMapper professorMapper) {
         this.professorRepository = professorRepository;
-        this.alunoService = alunoService;
-        this.avaliacaoService = avaliacaoService;
+        this.alunoRepository = alunoRepository;
         this.enderecoService = enderecoService;
         this.instituicaoService = instituicaoService;
         this.professorMapper = professorMapper;
@@ -120,7 +116,9 @@ public class ProfessorService {
                               Long idAluno) {
 
         Professor professor = buscarPorId(idProfessor);
-        Aluno aluno = alunoService.buscarPorId(idAluno);
+        Aluno aluno = alunoRepository.findById(idAluno).orElseThrow(
+                () -> new EntityNotFoundException("Aluno não encontrado no id " + idAluno)
+        );
 
         if (aluno.getProfessor() != null) {
             throw new IllegalArgumentException(
@@ -131,6 +129,19 @@ public class ProfessorService {
         professor.getAlunos().add(aluno);
         aluno.setProfessor(professor);
 
+    }
+
+    @Transactional
+    public ProfessorResponse buscarResponsePorId(Long id) {
+
+        Professor professor = professorRepository.findById(id)
+                .orElseThrow(() ->
+                        new EntityNotFoundException(
+                                "Professor não encontrado no id " + id
+                        )
+                );
+
+        return professorMapper.toResponse(professor);
     }
 
 }

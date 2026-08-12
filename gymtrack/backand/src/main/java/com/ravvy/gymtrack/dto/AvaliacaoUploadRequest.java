@@ -1,10 +1,11 @@
 package com.ravvy.gymtrack.dto;
 
-import com.ravvy.gymtrack.util.TipoSexoBiologico;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
-import java.time.LocalDate;
+import java.util.List;
 
 public record AvaliacaoUploadRequest(
 
@@ -12,13 +13,7 @@ public record AvaliacaoUploadRequest(
         Long alunoId,
 
         @NotNull
-        LocalDate dataNascimentoAluno,
-
-        @NotNull
         Long professorId,
-
-        @NotNull
-        TipoSexoBiologico sexo,
 
         @NotNull
         @Positive
@@ -34,7 +29,10 @@ public record AvaliacaoUploadRequest(
 
         @NotNull
         @Positive
-        Double perimetroCintura
+        Double perimetroCintura,
+
+        @NotEmpty
+        List<@Valid ResultadoTesteRequest> testes
 
 ) {
 }

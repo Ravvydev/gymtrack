@@ -27,10 +27,11 @@ public class Professor {
     @Column(name = "cpf", length = 11, nullable = false, unique = true)
     private String cpf;
 
-    @Column(name = "data_Nascimento", nullable = false, length = 2)
+    @Column(name = "data_Nascimento", nullable = false)
     private LocalDate dataNascimento;
 
-    @Column(name = "sexo",  nullable = false, length = 1)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "sexo", nullable = false)
     private TipoSexoBiologico sexo;
 
     @Embedded

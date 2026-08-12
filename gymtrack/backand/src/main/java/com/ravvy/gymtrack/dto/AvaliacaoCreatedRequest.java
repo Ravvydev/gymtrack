@@ -3,6 +3,8 @@ package com.ravvy.gymtrack.dto;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
+import java.util.List;
+
 public record AvaliacaoCreatedRequest(
 
         @NotNull
@@ -25,7 +27,10 @@ public record AvaliacaoCreatedRequest(
 
         @NotNull
         @Positive
-        Double perimetroCintura
+        Double perimetroCintura,
+
+        @NotNull
+        List<ResultadoTesteRequest> testes
 
 ) {
 }

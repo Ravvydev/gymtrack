@@ -34,6 +34,10 @@ public class Email {
         this.senha = senha;
     }
 
+    public Email() {
+
+    }
+
     private boolean validateEmail (String email) {
         return true;
     }

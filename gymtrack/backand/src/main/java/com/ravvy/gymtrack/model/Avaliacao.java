@@ -1,6 +1,5 @@
 package com.ravvy.gymtrack.model;
 
-import com.ravvy.gymtrack.service.YearOldService;
 import com.ravvy.gymtrack.util.TipoClassificacao;
 import com.ravvy.gymtrack.util.TipoSexoBiologico;
 import jakarta.persistence.*;
@@ -10,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -73,10 +72,17 @@ public class Avaliacao {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "zona", nullable = false)
-    private TipoClassificacao zona;
+    private TipoClassificacao classificacaoImc;
 
-    @OneToMany
-    @JoinColumn(name = "lista_exercicios_id")
-    private List<Exercicios> exercicios;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "classificacao_rce", nullable = false)
+    private TipoClassificacao classificacaoRce;
+
+    @OneToMany(
+            mappedBy = "avaliacao",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<TesteRealizado> testesRealizados = new ArrayList<>();
 
 }

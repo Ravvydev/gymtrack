@@ -19,7 +19,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "aluno")
-public class Aluno {
+public class Aluno{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

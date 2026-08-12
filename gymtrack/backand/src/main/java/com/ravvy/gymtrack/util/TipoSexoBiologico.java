@@ -5,12 +5,13 @@ import lombok.Getter;
 @Getter
 public enum TipoSexoBiologico {
 
-    MASCULINO('M'),
-    FEMININO('F');
+    MASCULINO("M"),
+    FEMININO("F"),
+    ;
 
-    private char abreviacao;
+    private final String abreviacao;
 
-    TipoSexoBiologico(char abreviacao) {
+    TipoSexoBiologico(String abreviacao) {
         this.abreviacao = abreviacao;
     }
 }

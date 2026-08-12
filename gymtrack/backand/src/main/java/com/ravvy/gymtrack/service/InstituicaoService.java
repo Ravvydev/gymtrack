@@ -14,34 +14,35 @@ import com.ravvy.gymtrack.repository.ProfessorRepository;
 import com.ravvy.gymtrack.util.Endereco;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class InstituicaoService {
 
     private final InstituicaoRepository instituicaoRepository;
-    private final AlunoService alunoService;
+    private final AlunoRepository alunoRepository;
     private final EnderecoService enderecoService;
     private final InstituicaoMapper instituicaoMapper;
-    private final ProfessorService professorService;
+    private final ProfessorRepository professorRepository;
 
-    public InstituicaoService(InstituicaoRepository instituicaoRepository,
-                              AlunoService alunoService,
-                              EnderecoService enderecoService, InstituicaoMapper instituicaoMapper, ProfessorService professorService) {
+    public InstituicaoService(InstituicaoRepository instituicaoRepository, EnderecoService enderecoService, InstituicaoMapper instituicaoMapper, ProfessorRepository professorRepository, AlunoRepository alunoRepository) {
         this.instituicaoRepository = instituicaoRepository;
-        this.alunoService = alunoService;
-        this.professorService = professorService;
+        this.alunoRepository = alunoRepository;
+        this.professorRepository = professorRepository;
         this.enderecoService = enderecoService;
         this.instituicaoMapper = instituicaoMapper;
     }
 
+    @Transactional
     public InstituicaoResponse save(InstituicaoCreateRequest request) {
+
         Instituicao instituicao = toEntity(request);
-        Instituicao instituicaoSalva =  instituicaoRepository.save(instituicao);
+
+        Instituicao instituicaoSalva =
+                instituicaoRepository.save(instituicao);
+
         return toResponse(instituicaoSalva);
     }
 
@@ -54,7 +55,9 @@ public class InstituicaoService {
     public void vincularAlunoInstituicao(Long idInstituicao, Long idAluno) {
 
         Instituicao instituicao = buscarPorId(idInstituicao);
-        Aluno aluno = alunoService.buscarPorId(idAluno);
+        Aluno aluno = alunoRepository.findById(idAluno).orElseThrow(
+                () -> new EntityNotFoundException("Aluno não encontrado no id " + idAluno)
+        );
 
         if (aluno.getInstituicao() != null) {
             throw new IllegalArgumentException(
@@ -72,7 +75,9 @@ public class InstituicaoService {
                                              Long idProfessor) {
 
         Instituicao instituicao = buscarPorId(idInstituicao);
-        Professor professor = professorService.buscarPorId(idProfessor);
+        Professor professor = professorRepository.findById(idProfessor).orElseThrow(
+                () -> new EntityNotFoundException("Professor não encontrado no id " + idProfessor)
+        );
 
         if (professor.getInstituicao() != null) {
             throw new IllegalArgumentException(
@@ -85,15 +90,22 @@ public class InstituicaoService {
         instituicaoRepository.save(instituicao);
     }
 
-    public List<Aluno> listarTodosAlunosInstituicao() {
-        return instituicaoRepository.findAllTodosAlunos();
+    public List<Aluno> listarTodosAlunosInstituicao(Long idInstituicao) {
+
+        Instituicao instituicao = buscarPorId(idInstituicao);
+
+        return instituicao.getAlunos();
+
     }
 
-    public List<Professor> listarTodosProfessoresInstituicao() {
-        return instituicaoRepository.findAllTodosProfessores();
+    public List<Professor> listarTodosProfessoresInstituicao(Long idInstituicao) {
+        Instituicao instituicao = buscarPorId(idInstituicao);
+
+        return instituicao.getProfessores();
     }
 
-    public List<Instituicao> listarTodosInstituicao() {
+
+    public List<Instituicao> listarAllInstituicoes() {
         return instituicaoRepository.findAll();
     }
 
@@ -124,7 +136,7 @@ public class InstituicaoService {
 
         Instituicao instituicao = buscarPorId(id);
 
-        if (!instituicao.getEmail().getSenha().equals(request.senhaAtual())){
+        if (!instituicao.getEmail().getSenha().equals(request.senhaAtual())) {
             throw new IllegalArgumentException(
                     "A senha atual está incorreta");
         }
@@ -140,14 +152,15 @@ public class InstituicaoService {
                 request.enderecoId());
 
         return instituicaoMapper.toEntity(
-                        request,
-                        endereco
-                );
+                request,
+                endereco
+        );
 
     }
 
     @Transactional
-    public InstituicaoResponse toResponse(Instituicao instituicao) {;
+    public InstituicaoResponse toResponse(Instituicao instituicao) {
+        ;
         return instituicaoMapper.toResponse(instituicao);
     }
 

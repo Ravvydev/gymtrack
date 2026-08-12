@@ -1,7 +1,9 @@
 package com.ravvy.gymtrack.util;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import lombok.Getter;
+import lombok.Setter;
 
 @Embeddable
 @Getter
@@ -18,8 +20,21 @@ public class Telefone {
         this.numero = numero;
     }
 
-    private boolean validateTelephone (String numero) {
-        return false;
+    public Telefone() {
+
+    }
+
+    private boolean validateTelephone(String numero) {
+
+        if (numero == null) return false;
+
+        // Retira todos os caracteres especiais e os substitui por uma string vazia
+        String numeroFormatted = numero.replaceAll("[^0-9]", "");
+
+        // Verifica se a string tem 10 ou 11 caracteres
+        String regex = "\\d{10,11}";
+
+        return numeroFormatted.matches(regex);
     }
 
 }

@@ -20,15 +20,14 @@ public class AlunoController {
     }
 
     @PostMapping
-    public AlunoResponse saveAluno(@RequestBody AlunoCreateRequest request) {
+    public AlunoResponse saveAluno(@RequestBody @Valid AlunoCreateRequest request) {
         return alunoService.save(request);
     }
 
     @GetMapping("/{id}")
     public AlunoResponse getAluno(@PathVariable Long id) {
 
-        Aluno aluno = alunoService.buscarPorId(id);
-        return alunoService.toResponse(aluno);
+        return alunoService.buscarResponsePorId(id);
 
     }
 
