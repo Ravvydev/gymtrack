@@ -32,7 +32,7 @@ public record AvaliacaoUploadRequest(
         Double perimetroCintura,
 
         @NotEmpty
-        List<@Valid ResultadoTesteRequest> testes
+        List<@Valid ResultadoTesteRequest> testesRealizados
 
 ) {
 }

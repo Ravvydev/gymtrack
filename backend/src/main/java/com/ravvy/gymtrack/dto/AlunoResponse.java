@@ -12,7 +12,7 @@ public record AlunoResponse(
         @NotBlank TipoSexoBiologico sexo,
         @NotBlank String email,
         @NotBlank String telefone,
-        @NotBlank String enderecoLogradouro,
+        @NotBlank String endereco,
         @NotBlank String instituicaoNome
 ) {
 }

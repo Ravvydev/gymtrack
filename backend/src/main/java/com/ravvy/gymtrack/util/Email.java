@@ -14,23 +14,23 @@ public class Email {
 
     @Column(name = "email", length = 100,  nullable = false,  unique = true)
     @NotBlank
-    private String email;
+    private String endereco;
 
     @Column(length = 100,  nullable = false,  unique = true)
     @NotBlank
     private String senha;
 
-    public Email(String email, String senha) {
+    public Email(String endereco, String senha) {
 
-        if(!validateEmail(email)) {
-            throw new IllegalArgumentException("Email invalido");
+        if(!validateEmail(endereco)) {
+            throw new IllegalArgumentException("Endereço de email invalido");
         }
 
         if(!validateSenha(senha)) {
             throw new IllegalArgumentException("Senha invalida");
         }
 
-        this.email = email;
+        this.endereco = endereco;
         this.senha = senha;
     }
 
@@ -38,7 +38,7 @@ public class Email {
 
     }
 
-    private boolean validateEmail (String email) {
+    private boolean validateEmail (String endereco) {
         return true;
     }
 

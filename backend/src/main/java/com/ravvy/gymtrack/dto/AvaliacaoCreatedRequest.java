@@ -30,7 +30,7 @@ public record AvaliacaoCreatedRequest(
         Double perimetroCintura,
 
         @NotNull
-        List<ResultadoTesteRequest> testes
+        List<ResultadoTesteRequest> testesRealizados
 
 ) {
 }

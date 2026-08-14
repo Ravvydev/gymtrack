@@ -40,13 +40,13 @@ public class Aluno{
     @Embedded
     private Telefone telefone;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "endereco_id", nullable = false)
-    private Endereco endereco;
-
     @Column(name = "cpf", length = 11,
             nullable = false, unique = true)
     private String cpf;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "endereco_id", nullable = false)
+    private Endereco endereco;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "professor_id")

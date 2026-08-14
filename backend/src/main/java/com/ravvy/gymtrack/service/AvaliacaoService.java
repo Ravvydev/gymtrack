@@ -26,7 +26,7 @@ import java.util.List;
 public class AvaliacaoService {
 
     private final AvaliacaoRepository avaliacaoRepository;
-    private final ClassificacaoImcService  classificacaoImcService;
+    private final ClassificacaoImcService classificacaoImcService;
     private final ClassificacaoRceService classificacaoRceService;
     private final AlunoService alunoService;
     private final ProfessorService professorService;
@@ -44,7 +44,6 @@ public class AvaliacaoService {
     @Transactional
     public AvaliacaoResponse criar(AvaliacaoCreatedRequest request) {
 
-        Avaliacao avaliacao = new Avaliacao();
         Aluno aluno = alunoService.buscarPorId(request.alunoId());
         Professor professor = professorService.buscarPorId(request.professorId());
 
@@ -63,21 +62,20 @@ public class AvaliacaoService {
         TipoClassificacao classificacaoRce =
                 classificacaoRceService.classificar(rce);
 
-        avaliacaoMapper
+        Avaliacao avaliacao = avaliacaoMapper
                 .toEntity(
-                request,
-                avaliacao,
-                aluno,
-                professor,
-                imc,
-                rce,
-                classificacaoImc,
-                classificacaoRce
-        );
+                        request,
+                        aluno,
+                        professor,
+                        imc,
+                        rce,
+                        classificacaoImc,
+                        classificacaoRce
+                );
 
-        avaliacaoRepository.save(avaliacao);
+        Avaliacao avaliacaoSalva = avaliacaoRepository.save(avaliacao);
 
-        return avaliacaoMapper.toResponse(avaliacao);
+        return avaliacaoMapper.toResponse(avaliacaoSalva);
     }
 
     @Transactional
@@ -111,13 +109,6 @@ public class AvaliacaoService {
                 request.professorId()
         );
 
-        avaliacaoMapper.uploadAvaliacao(
-                request,
-                avaliacao,
-                aluno,
-                professor
-        );
-
         Double imc = calcularIMC(
                 request.peso(),
                 request.altura()
@@ -128,18 +119,24 @@ public class AvaliacaoService {
                 request.altura()
         );
 
-        avaliacao.setImc(imc);
-        avaliacao.setRce(rce);
-
-        avaliacao.setClassificacaoImc(
+        TipoClassificacao classficacaoImc =
                 calcularClassificacaoImc(
                         aluno,
                         imc
-                )
-        );
+                );
 
-        avaliacao.setClassificacaoRce(
-                classificacaoRceService.classificar(rce)
+        TipoClassificacao classificacaoRce =
+                classificacaoRceService.classificar(rce);
+
+        avaliacaoMapper.uploadAvaliacao(
+                request,
+                avaliacao,
+                aluno,
+                professor,
+                imc,
+                rce,
+                classficacaoImc,
+                classificacaoRce
         );
 
         Avaliacao avaliacaoSalva =

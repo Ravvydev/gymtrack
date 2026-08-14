@@ -10,7 +10,7 @@ public record ProfessorResponse(
         @NotBlank String email,
         @NotBlank String telefone,
         @NotBlank TipoSexoBiologico sexo,
-        @NotBlank String enderecoEstado,
+        @NotBlank String endereco,
         @NotBlank String instituicaoNome
 ) {
 }
