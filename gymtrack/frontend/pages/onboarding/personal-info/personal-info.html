@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Você</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div class="container">
+        <div class="card">
+            <div class="header">
+
+                <button class="back-button">
+                    ←
+                </button>
+
+                <div class="progress">
+
+                    <div class="progress-fill"></div>
+
+                </div>
+
+                <span>2/6</span>
+
+            </div>
+
+            <div class="image">
+
+                <img src="" alt="">
+
+            </div>
+
+            <div class="content">
+
+                <h1>Conte um pouco sobre você</h1>
+
+                <p>Precisamos de algumas informações para criar seu perfil.</p>
+
+            </div>
+            <form id="personal-info-form">
+                <div class="input-group">
+
+                <label for="full-name">
+                    Nome completo
+                </label>
+
+                <input 
+                type="text"
+                id="full-name"
+                placeholder="Digite seu nome">
+
+                <br>
+
+                <label for="date">
+                    Data de nascimento
+                </label>
+
+                <input 
+                type="date"
+                id="birth-date">
+
+                <br>
+
+                <label for="gender">
+                    Sexo
+                </label>
+                
+                <select>
+
+                    <option value="">Selecione uma opção</option>
+
+                    <option value="masculino">Masculino</option>
+
+                    <option value="Feminino">Feminino</option>
+
+                    <option value="nao-informar">Prefiro não informar</option>
+
+                </select>
+
+                <br>
+
+                <label for="state">
+                    Estado
+                </label>
+
+                <select id="state">
+
+                    <option value="">Selecione seu estado</option>
+
+                    <option value="AL">Alagoas</option>
+                    <option value="PE">Pernambuco</option>
+                    <option value="SE">Sergipe</option>
+                    <option value="BA">Bahia</option>
+                </select>
+
+                <br>
+
+                <label for="city">
+                    Cidade
+                </label>
+                <select id="city">
+
+                <option value="">Selecione a sua cidade</option>
+
+                </select>
+
+                <br>
+                </div>
+            </form>
+                <button
+                    type="submit"
+                    id="continue-button"                
+                >
+                    continuar
+                </button>
+            
+        </div>
+    </div>
+</body>
+</html>
