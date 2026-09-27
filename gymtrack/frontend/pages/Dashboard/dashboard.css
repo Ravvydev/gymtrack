@@ -1,0 +1,318 @@
+/* Resete Básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background-color: #f3f4f9;
+  color: #333333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.dashboard-container {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  min-height: 650px;
+  background-color: #f3f4f9;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* -----------------------------------
+   Sidebar / Barra Lateral (Ajustada)
+----------------------------------- */
+.sidebar {
+  width: 220px; /* Reduzido ligeiramente a largura para encostar mais */
+  background-color: #6C38F8;
+  color: #ffffff;
+  padding: 30px 10px 30px 12px; /* Reduzido o padding da esquerda para encostar mais à borda */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 40px;
+  padding-left: 8px; /* Pequeno alinhamento interno */
+}
+
+.sidebar .brand i {
+  font-size: 22px;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar ul li {
+  margin-bottom: 8px;
+}
+
+.sidebar ul li a {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Reduzido o espaço entre o ícone e o texto */
+  color: #d1c4fe;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 10px 10px; /* Espaçamento interno mais compacto */
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.sidebar ul li a:hover {
+  color: #ffffff;
+}
+
+.sidebar ul li.active a {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+}
+
+/* -----------------------------------
+   Conteúdo Principal
+----------------------------------- */
+.main-content {
+  flex: 1;
+  padding: 30px 35px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Cabeçalho */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.welcome h1 {
+  font-size: 22px;
+  color: #1a1a2e;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.welcome p {
+  font-size: 13px;
+  color: #666666;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  background-color: #a080f5;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-info .name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.user-info .role {
+  font-size: 12px;
+  color: #888888;
+}
+
+/* Cards Gerais */
+.card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+/* Cards de Estatísticas */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.blue-light {
+  background-color: #e8f1ff;
+  color: #0066ff;
+}
+
+.green-light {
+  background-color: #e6f9f0;
+  color: #00b368;
+}
+
+.red-light {
+  background-color: #ffede8;
+  color: #ff5252;
+}
+
+.stat-title {
+  font-size: 14px;
+  color: #555555;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+/* Grid Inferior (Gráfico + Ações) */
+.content-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+/* Card do Gráfico */
+.chart-card h2,
+.actions-card h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 20px;
+}
+
+.chart-placeholder {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.chart-y-axis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #999999;
+}
+
+.chart-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-svg {
+  width: 100%;
+  height: 120px;
+}
+
+.chart-x-axis {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #999999;
+  margin-top: 10px;
+  padding: 0 10px;
+}
+
+.students-tags {
+  display: flex;
+  gap: 20px;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 15px;
+}
+
+.tag-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.badge {
+  background-color: #e6f9f0;
+  color: #00b368;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+/* Card de Ações Rápidas */
+.actions-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: opacity 0.2s;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.btn-blue {
+  background-color: #0084ff;
+  color: #ffffff;
+}
