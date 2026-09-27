@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>projeto - Dashboard</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+ 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+ 
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+  <div class="dashboard-container">
+    
+  
+    <aside class="sidebar">
+      <div class="brand">
+        <i class="fa-solid fa-person-running"></i>
+        <span>PROJETO</span>
+      </div>
+
+      <nav class="nav-menu">
+        <ul>
+          <li class="active"><a href="#"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+          <li><a href="#"><i class="fa-solid fa-user-group"></i> Alunos</a></li>
+          <li><a href="#"><i class="fa-solid fa-square-check"></i> Avaliações</a></li>
+          <li><a href="#"><i class="fa-solid fa-clock-rotate-left"></i> Histórico</a></li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <ul>
+          <li><a href="#"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+          <li><a href="#"><i class="fa-solid fa-right-from-bracket"></i> Sair</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      
+     
+      <header class="header">
+        <div class="welcome">
+          <h1>Olá</h1>
+          <p>Aqui está um resumo das atividades de hoje.</p>
+        </div>
+        <div class="user-profile">
+          <div class="avatar">
+            <i class="fa-solid fa-user"></i>
+          </div>
+          <div class="user-info">
+            <span class="name">perfil</span>
+            <span class="role">perfil</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="stats-grid">
+        <div class="card stat-card">
+          <div class="card-icon blue-light">
+            <i class="fa-solid fa-user-group"></i>
+          </div>
+          <p class="stat-title">Total de alunos</p>
+          <p class="stat-value"></p>
+        </div>
+
+        <div class="card stat-card">
+          <div class="card-icon green-light">
+            <i class="fa-regular fa-circle-check"></i>
+          </div>
+          <p class="stat-title">Avaliações realizadas</p>
+          <p class="stat-value"></p>
+        </div>
+
+        <div class="card stat-card">
+          <div class="card-icon red-light">
+            <i class="fa-regular fa-clock"></i>
+          </div>
+          <p class="stat-title">Avaliações pendentes</p>
+          <p class="stat-value"></p>
+        </div>
+      </section>
+
+      
+      <section class="content-grid">
+        
+        
+        <div class="card chart-card">
+          <h2>Evolução do IMC (média da turma)</h2>
+          <div class="chart-placeholder">
+           
+            <div class="chart-y-axis">
+              <span>30</span>
+              <span>32</span>
+              <span>28</span>
+              <span>14</span>
+              <span>0</span>
+            </div>
+            <div class="chart-body">
+              <svg viewBox="0 0 500 150" class="chart-svg">
+                <path d="M 20,40 Q 120,40 130,40 T 250,65 T 370,65 T 480,40 L 480,140 L 20,140 Z" fill="#f0edfd" />
+                <path d="M 20,40 L 130,40 L 250,65 L 370,65 L 480,40" fill="none" stroke="#6C38F8" stroke-width="3" />
+                <circle cx="20" cy="40" r="5" fill="#6C38F8" />
+                <circle cx="130" cy="40" r="5" fill="#6C38F8" />
+                <circle cx="250" cy="65" r="5" fill="#6C38F8" />
+                <circle cx="370" cy="65" r="5" fill="#6C38F8" />
+                <circle cx="480" cy="40" r="5" fill="#6C38F8" />
+              </svg>
+              <div class="chart-x-axis">
+                <span>Mar</span>
+                <span>Abr</span>
+                <span>Mai</span>
+                <span>Jun</span>
+                <span>Jul</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="students-tags">
+            <div class="tag-item">
+              <span>aluno</span>
+              <span class="badge">Ativo</span>
+            </div>
+            <div class="tag-item">
+              <span>aluno</span>
+              <span class="badge">Ativo</span>
+            </div>
+          </div>
+        </div>
+
+      
+        <div class="card actions-card">
+          <h2>Ações rápidas</h2>
+          <div class="action-buttons">
+            <button class="btn btn-blue"><i class="fa-solid fa-plus"></i> Novo aluno</button>
+            <button class="btn btn-blue"><i class="fa-solid fa-plus"></i> Nova avaliação</button>
+            <button class="btn btn-blue">Alunos em destaque</button>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+</body>
+</html>
