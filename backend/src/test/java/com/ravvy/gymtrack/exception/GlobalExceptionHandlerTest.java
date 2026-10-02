@@ -1,5 +1,7 @@
 package com.ravvy.gymtrack.exception;
 
+import com.ravvy.gymtrack.shared.exception.GlobalExceptionHandler;
+import com.ravvy.gymtrack.shared.exception.RegraDeNegocioExeption;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

@@ -1,8 +1,9 @@
 package com.ravvy.gymtrack.service;
 
-import com.ravvy.gymtrack.exception.RegraDeNegocioExeption;
-import com.ravvy.gymtrack.util.TipoClassificacao;
-import com.ravvy.gymtrack.util.TipoSexoBiologico;
+import com.ravvy.gymtrack.testes.service.ClassificacaoImcService;
+import com.ravvy.gymtrack.shared.exception.RegraDeNegocioExeption;
+import com.ravvy.gymtrack.avaliacao.enums.TipoClassificacao;
+import com.ravvy.gymtrack.avaliacao.enums.TipoSexoBiologico;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
