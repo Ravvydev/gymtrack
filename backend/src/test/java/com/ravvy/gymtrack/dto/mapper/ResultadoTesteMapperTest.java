@@ -1,14 +1,15 @@
 package com.ravvy.gymtrack.dto.mapper;
 
-import com.ravvy.gymtrack.dto.ResultadoTesteResponse;
-import com.ravvy.gymtrack.model.Avaliacao;
-import com.ravvy.gymtrack.model.TesteRealizado;
-import com.ravvy.gymtrack.service.ClassificacaoDesempenhoService;
-import com.ravvy.gymtrack.service.ClassificacaoSaudeService;
-import com.ravvy.gymtrack.util.TipoDesempenho;
-import com.ravvy.gymtrack.util.TipoSaude;
-import com.ravvy.gymtrack.util.TipoSexoBiologico;
-import com.ravvy.gymtrack.util.TipoTesteFisico;
+import com.ravvy.gymtrack.testes.dto.ResultadoTesteResponse;
+import com.ravvy.gymtrack.avaliacao.entity.Avaliacao;
+import com.ravvy.gymtrack.testes.entity.TesteRealizado;
+import com.ravvy.gymtrack.testes.service.ClassificacaoDesempenhoService;
+import com.ravvy.gymtrack.testes.service.ClassificacaoSaudeService;
+import com.ravvy.gymtrack.avaliacao.enums.TipoDesempenho;
+import com.ravvy.gymtrack.avaliacao.enums.TipoSaude;
+import com.ravvy.gymtrack.avaliacao.enums.TipoSexoBiologico;
+import com.ravvy.gymtrack.avaliacao.enums.TipoTesteFisico;
+import com.ravvy.gymtrack.testes.mapper.ResultadoTesteMapper;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
