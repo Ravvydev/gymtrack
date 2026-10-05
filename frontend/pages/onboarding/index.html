@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymTrack - Onboarding</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header" id="header" style="display: none;">
+                <button class="back-button" id="back-button">←</button>
+                <div class="progress">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <span id="progress-text">1/6</span>
+            </div>
+
+            <!-- Step 1: User Type -->
+            <div class="step" id="step-user-type">
+                <div class="image">
+                    <img src="../../assets/images/onboarding/img-userType.png" alt="User Type">
+                </div>
+                <div class="content">
+                    <h1>Quem é você?</h1>
+                    <p>Escolha como deseja utilizar a plataforma.</p>
+                </div>
+                <div class="cards">
+                    <div class="user-card" id="card-aluno" onclick="selectUserType('aluno')">
+                        <h2>👨‍🎓</h2>
+                        <h3>Aluno</h3>
+                        <p>Quero acompanhar minhas avaliações e evolução física.</p>
+                    </div>
+                    <div class="user-card" id="card-professor" onclick="selectUserType('professor')">
+                        <h2>👨‍🏫</h2>
+                        <h3>Professor</h3>
+                        <p>Quero cadastrar alunos e realizar avaliações.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Personal Info (Shared) -->
+            <div class="step" id="step-personal-info" style="display: none;">
+                <div class="content">
+                    <h1>Conte um pouco sobre você</h1>
+                    <p>Precisamos de algumas informações para criar seu perfil.</p>
+                </div>
+                <div class="input-group">
+                    <label>Nome completo</label>
+                    <input type="text" id="pi-name" placeholder="Digite seu nome">
+
+                    <label>Data de nascimento</label>
+                    <input type="date" id="pi-birth">
+
+                    <label>Sexo</label>
+                    <select id="pi-gender">
+                        <option value="">Selecione uma opção</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Feminino">Feminino</option>
+                        <option value="Prefiro não informar">Prefiro não informar</option>
+                    </select>
+
+                    <label>Estado</label>
+                    <select id="pi-state">
+                        <option value="">Selecione seu estado</option>
+                        <option value="AL">Alagoas</option>
+                        <option value="BA">Bahia</option>
+                        <option value="CE">Ceará</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="SE">Sergipe</option>
+                        <option value="SP">São Paulo</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                    </select>
+
+                    <label>Cidade</label>
+                    <input type="text" id="pi-city" placeholder="Digite sua cidade">
+                </div>
+            </div>
+
+            <!-- Step 3 (Aluno): School Info -->
+            <div class="step" id="step-school-info" style="display: none;">
+                <div class="content">
+                    <h1>Informações Escolares</h1>
+                    <p>Conte-nos sobre a sua escola.</p>
+                </div>
+                <div class="input-group">
+                    <label>Rede de ensino</label>
+                    <select id="si-network">
+                        <option value="">Selecione a rede</option>
+                        <option value="Pública">Pública</option>
+                        <option value="Privada">Privada</option>
+                    </select>
+
+                    <label>Nome da escola</label>
+                    <input type="text" id="si-school" placeholder="Digite o nome da escola">
+
+                    <label>Série/Ano</label>
+                    <input type="text" id="si-grade" placeholder="Ex: 1º Ano do Ensino Médio">
+
+                    <label>Turma</label>
+                    <input type="text" id="si-class" placeholder="Ex: A, B, C">
+                </div>
+            </div>
+
+            <!-- Step 4 (Aluno): Objectives -->
+            <div class="step" id="step-objectives" style="display: none;">
+                <div class="content">
+                    <h1>Seus Objetivos</h1>
+                    <p>O que você espera do GymTrack?</p>
+                </div>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Acompanhar evolução física" class="obj-checkbox">
+                        <span>Acompanhar evolução física</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Ver avaliações" class="obj-checkbox">
+                        <span>Ver avaliações</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Melhorar desempenho" class="obj-checkbox">
+                        <span>Melhorar desempenho</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Receber recomendações" class="obj-checkbox">
+                        <span>Receber recomendações</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Outro" class="obj-checkbox">
+                        <span>Outro</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Step 3 (Professor): Professional Info -->
+            <div class="step" id="step-prof-info" style="display: none;">
+                <div class="content">
+                    <h1>Informações Profissionais</h1>
+                    <p>Insira seus dados profissionais.</p>
+                </div>
+                <div class="input-group">
+                    <label>Formação Acadêmica</label>
+                    <input type="text" id="pro-formation" placeholder="Ex: Educação Física (Licenciatura)">
+
+                    <label>CREF (Opcional)</label>
+                    <input type="text" id="pro-cref" placeholder="Ex: 000000-G/UF">
+                </div>
+            </div>
+
+            <!-- Step 4 (Professor): Classes -->
+            <div class="step" id="step-classes" style="display: none;">
+                <div class="content">
+                    <h1>Suas Turmas</h1>
+                    <p>Adicione as turmas que você irá acompanhar.</p>
+                </div>
+                <div class="input-group">
+                    <label>Série/Ano</label>
+                    <input type="text" id="class-grade" placeholder="Ex: 1º Ano">
+                    <label>Turma</label>
+                    <input type="text" id="class-name" placeholder="Ex: A">
+                    <label>Turno</label>
+                    <select id="class-shift">
+                        <option value="Manhã">Manhã</option>
+                        <option value="Tarde">Tarde</option>
+                        <option value="Noite">Noite</option>
+                    </select>
+                    <button type="button" class="btn-secondary" onclick="addClass()">Adicionar Turma</button>
+                </div>
+                <div id="classes-list" class="items-list">
+                    <!-- Added classes will appear here -->
+                </div>
+            </div>
+
+            <!-- Step 5 (Professor): Preferences -->
+            <div class="step" id="step-preferences" style="display: none;">
+                <div class="content">
+                    <h1>Preferências</h1>
+                    <p>Configure como deseja usar a plataforma.</p>
+                </div>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="pref-notifications" checked>
+                        <span>Receber notificações por e-mail</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="pref-reports" checked>
+                        <span>Gerar relatórios automáticos ao fim do bimestre</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Step 5/6: Review -->
+            <div class="step" id="step-review" style="display: none;">
+                <div class="content">
+                    <h1>Revisão de Dados</h1>
+                    <p>Verifique se está tudo certo antes de finalizar.</p>
+                </div>
+                <div class="review-box" id="review-content">
+                    <!-- Content will be injected by JS -->
+                </div>
+            </div>
+
+            <!-- Step 6/7: Success -->
+            <div class="step" id="step-success" style="display: none; text-align: center;">
+                <h2 style="font-size: 64px; margin-bottom: 20px;">🎉</h2>
+                <div class="content">
+                    <h1>Perfil Criado!</h1>
+                    <p>Seu cadastro foi finalizado com sucesso.</p>
+                </div>
+            </div>
+
+            <div id="footer-actions">
+                <button id="continue-button" onclick="nextStep()" disabled>Continuar</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
