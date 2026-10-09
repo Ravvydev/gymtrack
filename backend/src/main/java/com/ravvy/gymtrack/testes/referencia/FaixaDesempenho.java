@@ -1,4 +1,4 @@
-package com.ravvy.gymtrack.testes.records;
+package com.ravvy.gymtrack.testes.referencia;
 
 import com.ravvy.gymtrack.avaliacao.enums.TipoDesempenho;
 

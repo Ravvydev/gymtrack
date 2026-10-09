@@ -1,4 +1,4 @@
-package com.ravvy.gymtrack.avaliacao.enums;
+package com.ravvy.gymtrack.aluno.enums;
 
 import lombok.Getter;
 

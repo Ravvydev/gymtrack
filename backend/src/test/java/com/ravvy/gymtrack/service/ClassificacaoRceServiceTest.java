@@ -1,6 +1,6 @@
 package com.ravvy.gymtrack.service;
 
-import com.ravvy.gymtrack.testes.service.ClassificacaoRceService;
+import com.ravvy.gymtrack.testes.classificacao.ClassificacaoRceService;
 import com.ravvy.gymtrack.avaliacao.enums.TipoClassificacao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

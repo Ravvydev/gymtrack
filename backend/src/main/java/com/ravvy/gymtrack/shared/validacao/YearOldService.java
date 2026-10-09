@@ -1,4 +1,4 @@
-package com.ravvy.gymtrack.shared.services;
+package com.ravvy.gymtrack.shared.validacao;
 
 import org.springframework.stereotype.Service;
 

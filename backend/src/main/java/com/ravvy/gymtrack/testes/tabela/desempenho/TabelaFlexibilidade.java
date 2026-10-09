@@ -1,8 +1,8 @@
 package com.ravvy.gymtrack.testes.tabela.desempenho;
 
 import com.ravvy.gymtrack.avaliacao.enums.DirecaoResultado;
-import com.ravvy.gymtrack.testes.records.ReferenciaDesempenho;
-import com.ravvy.gymtrack.avaliacao.enums.TipoSexoBiologico;
+import com.ravvy.gymtrack.testes.referencia.ReferenciaDesempenho;
+import com.ravvy.gymtrack.aluno.enums.TipoSexoBiologico;
 import com.ravvy.gymtrack.avaliacao.enums.TipoTesteFisico;
 
 import java.util.List;

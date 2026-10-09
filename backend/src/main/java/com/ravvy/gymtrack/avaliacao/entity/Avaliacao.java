@@ -4,7 +4,7 @@ import com.ravvy.gymtrack.aluno.entity.Aluno;
 import com.ravvy.gymtrack.professor.entity.Professor;
 import com.ravvy.gymtrack.testes.entity.TesteRealizado;
 import com.ravvy.gymtrack.avaliacao.enums.TipoClassificacao;
-import com.ravvy.gymtrack.avaliacao.enums.TipoSexoBiologico;
+import com.ravvy.gymtrack.aluno.enums.TipoSexoBiologico;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

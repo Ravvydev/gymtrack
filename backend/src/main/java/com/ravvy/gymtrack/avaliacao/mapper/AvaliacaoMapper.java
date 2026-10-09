@@ -8,7 +8,7 @@ import com.ravvy.gymtrack.avaliacao.entity.Avaliacao;
 import com.ravvy.gymtrack.testes.mapper.ResultadoTesteMapper;
 import com.ravvy.gymtrack.professor.entity.Professor;
 import com.ravvy.gymtrack.testes.entity.TesteRealizado;
-import com.ravvy.gymtrack.shared.services.YearOldService;
+import com.ravvy.gymtrack.shared.validacao.YearOldService;
 import com.ravvy.gymtrack.avaliacao.enums.TipoClassificacao;
 import com.ravvy.gymtrack.avaliacao.enums.TipoTesteFisico;
 import org.mapstruct.AfterMapping;

@@ -1,4 +1,4 @@
-package com.ravvy.gymtrack.testes.service;
+package com.ravvy.gymtrack.testes.classificacao;
 
 import com.ravvy.gymtrack.avaliacao.enums.TipoClassificacao;
 import org.springframework.stereotype.Service;

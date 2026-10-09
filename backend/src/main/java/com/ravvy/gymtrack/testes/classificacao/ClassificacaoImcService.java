@@ -1,9 +1,9 @@
-package com.ravvy.gymtrack.testes.service;
+package com.ravvy.gymtrack.testes.classificacao;
 
 import com.ravvy.gymtrack.shared.exception.RegraDeNegocioExeption;
-import com.ravvy.gymtrack.testes.records.FaixaIMC;
+import com.ravvy.gymtrack.testes.referencia.FaixaIMC;
 import com.ravvy.gymtrack.avaliacao.enums.TipoClassificacao;
-import com.ravvy.gymtrack.avaliacao.enums.TipoSexoBiologico;
+import com.ravvy.gymtrack.aluno.enums.TipoSexoBiologico;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;

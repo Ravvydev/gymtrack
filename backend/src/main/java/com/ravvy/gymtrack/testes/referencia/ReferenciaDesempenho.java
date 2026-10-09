@@ -1,9 +1,8 @@
-package com.ravvy.gymtrack.testes.records;
+package com.ravvy.gymtrack.testes.referencia;
 
 import com.ravvy.gymtrack.avaliacao.enums.DirecaoResultado;
-import com.ravvy.gymtrack.avaliacao.enums.TipoSexoBiologico;
+import com.ravvy.gymtrack.aluno.enums.TipoSexoBiologico;
 import com.ravvy.gymtrack.avaliacao.enums.TipoTesteFisico;
-import com.ravvy.gymtrack.testes.interfaces.ReferenciaTeste;
 
 public record ReferenciaDesempenho(
 

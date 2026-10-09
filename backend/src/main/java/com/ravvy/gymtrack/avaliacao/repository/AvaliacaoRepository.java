@@ -13,4 +13,7 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao,Long> {
             LocalDate dataAvaliacao
     );
 
+    List<Avaliacao> findByAlunoIdOrderByDataAvaliacaoAsc(Long alunoId);
+
+    List<Avaliacao> findByAlunoInstituicaoIdOrderByDataAvaliacaoAsc(Long idInstituicao);
 }

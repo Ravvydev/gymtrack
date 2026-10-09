@@ -7,7 +7,7 @@ import com.ravvy.gymtrack.professor.entity.Professor;
 import com.ravvy.gymtrack.shared.util.Cpf;
 import com.ravvy.gymtrack.shared.util.Email;
 import com.ravvy.gymtrack.shared.util.Telefone;
-import com.ravvy.gymtrack.avaliacao.enums.TipoSexoBiologico;
+import com.ravvy.gymtrack.aluno.enums.TipoSexoBiologico;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

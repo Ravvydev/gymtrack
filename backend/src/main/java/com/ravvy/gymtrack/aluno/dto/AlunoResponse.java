@@ -1,6 +1,6 @@
 package com.ravvy.gymtrack.aluno.dto;
 
-import com.ravvy.gymtrack.avaliacao.enums.TipoSexoBiologico;
+import com.ravvy.gymtrack.aluno.enums.TipoSexoBiologico;
 import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDate;

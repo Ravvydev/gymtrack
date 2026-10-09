@@ -6,7 +6,7 @@ import com.ravvy.gymtrack.professor.dto.ProfessorUpdateRequest;
 import com.ravvy.gymtrack.endereco.entity.Endereco;
 import com.ravvy.gymtrack.instituicao.entity.Instituicao;
 import com.ravvy.gymtrack.professor.entity.Professor;
-import com.ravvy.gymtrack.shared.services.YearOldService;
+import com.ravvy.gymtrack.shared.validacao.YearOldService;
 import com.ravvy.gymtrack.shared.util.Cpf;
 import com.ravvy.gymtrack.shared.util.Email;
 import com.ravvy.gymtrack.shared.util.Telefone;

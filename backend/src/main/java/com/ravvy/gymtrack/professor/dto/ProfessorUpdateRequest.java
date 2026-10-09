@@ -1,6 +1,6 @@
 package com.ravvy.gymtrack.professor.dto;
 
-import com.ravvy.gymtrack.avaliacao.enums.TipoSexoBiologico;
+import com.ravvy.gymtrack.aluno.enums.TipoSexoBiologico;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;

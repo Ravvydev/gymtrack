@@ -1,11 +1,11 @@
-package com.ravvy.gymtrack.testes.service;
+package com.ravvy.gymtrack.testes.classificacao;
 
 import com.ravvy.gymtrack.avaliacao.enums.DirecaoResultado;
 import com.ravvy.gymtrack.avaliacao.enums.TipoDesempenho;
-import com.ravvy.gymtrack.avaliacao.enums.TipoSexoBiologico;
+import com.ravvy.gymtrack.aluno.enums.TipoSexoBiologico;
 import com.ravvy.gymtrack.avaliacao.enums.TipoTesteFisico;
 import com.ravvy.gymtrack.shared.exception.RegraDeNegocioExeption;
-import com.ravvy.gymtrack.testes.records.ReferenciaDesempenho;
+import com.ravvy.gymtrack.testes.referencia.ReferenciaDesempenho;
 import com.ravvy.gymtrack.testes.tabela.desempenho.*;
 import org.springframework.stereotype.Service;
 

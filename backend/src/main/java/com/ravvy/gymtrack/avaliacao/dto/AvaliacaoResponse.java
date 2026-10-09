@@ -2,7 +2,7 @@ package com.ravvy.gymtrack.avaliacao.dto;
 
 import com.ravvy.gymtrack.testes.dto.ResultadoTesteResponse;
 import com.ravvy.gymtrack.avaliacao.enums.TipoClassificacao;
-import com.ravvy.gymtrack.avaliacao.enums.TipoSexoBiologico;
+import com.ravvy.gymtrack.aluno.enums.TipoSexoBiologico;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

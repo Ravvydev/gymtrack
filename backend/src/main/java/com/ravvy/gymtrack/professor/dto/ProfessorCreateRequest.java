@@ -1,7 +1,7 @@
 package com.ravvy.gymtrack.professor.dto;
 
 import com.ravvy.gymtrack.shared.util.Telefone;
-import com.ravvy.gymtrack.avaliacao.enums.TipoSexoBiologico;
+import com.ravvy.gymtrack.aluno.enums.TipoSexoBiologico;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

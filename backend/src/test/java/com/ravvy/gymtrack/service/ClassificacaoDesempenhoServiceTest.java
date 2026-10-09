@@ -1,9 +1,9 @@
 package com.ravvy.gymtrack.service;
 
-import com.ravvy.gymtrack.testes.service.ClassificacaoDesempenhoService;
+import com.ravvy.gymtrack.testes.classificacao.ClassificacaoDesempenhoService;
 import com.ravvy.gymtrack.shared.exception.RegraDeNegocioExeption;
 import com.ravvy.gymtrack.avaliacao.enums.TipoDesempenho;
-import com.ravvy.gymtrack.avaliacao.enums.TipoSexoBiologico;
+import com.ravvy.gymtrack.aluno.enums.TipoSexoBiologico;
 import com.ravvy.gymtrack.avaliacao.enums.TipoTesteFisico;
 import org.junit.jupiter.api.Test;
 
