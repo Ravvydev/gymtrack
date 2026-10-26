@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informações Escolares</title>
+    <link rel="stylesheet" href="infor.css">
+    <a href="personal-info.html">←</a>
+</head>
+<body>
+
+    <main class="container">
+                
+<header class="progresso">
+    <div class="barra">
+        <div class="barra-preenchida"></div>
+    </div>
+
+    <span class="etapa">3/6</span>
+</header>
+
+
+        <section class="formulario">
+            <h1>Informações escolares</h1>
+
+            <p class="descricao">
+                Conecte seu perfil com a sua escola para receber
+                testes físicos dos professores.
+            </p>
+
+            <form>
+                <div class="campo">
+                    <label for="escola">Nome da escola</label>
+
+                    <div class="campo-escola">
+                        <span class="lupa">⌕</span>
+                        <input
+                            type="text"
+                            id="escola"
+                            value="Escola Estadual Castro Alves"
+                        >
+                    </div>
+                </div>
+
+                <div class="campo">
+                    <label>Rede de Ensino</label>
+
+                    <div class="opcoes">
+                        <input
+                            type="radio"
+                            id="publica"
+                            name="rede"
+                            value="publica"
+                            checked
+                        >
+                        <label for="publica">Pública</label>
+
+                        <input
+                            type="radio"
+                            id="privada"
+                            name="rede"
+                            value="privada"
+                        >
+                        <label for="privada">Privada</label>
+                    </div>
+                </div>
+
+                <div class="campo">
+                    <label for="serie">Série / Ano</label>
+
+                    <select id="serie">
+                        <option>1º Ano - Ensino Médio</option>
+                        <option>2º Ano - Ensino Médio</option>
+                        <option>3º Ano - Ensino Médio</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="turma">Turma</label>
+
+                    <input
+                        type="text"
+                        id="turma"
+                        value="Turma 103"
+                    >
+                </div>
+            </form>
+        </section>
+
+    </main>
+
+</body>
+</html>
