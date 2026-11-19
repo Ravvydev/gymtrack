@@ -1,23 +1,30 @@
 package com.ravvy.gymtrack.instituicao.service;
 
 import com.ravvy.gymtrack.aluno.dto.AlunoResponse;
-import com.ravvy.gymtrack.aluno.mapper.AlunoMapper;
-import com.ravvy.gymtrack.instituicao.mapper.InstituicaoMapper;
-import com.ravvy.gymtrack.professor.dto.ProfessorResponse;
-import com.ravvy.gymtrack.professor.mapper.ProfessorMapper;
 import com.ravvy.gymtrack.aluno.entity.Aluno;
+import com.ravvy.gymtrack.aluno.mapper.AlunoMapper;
+import com.ravvy.gymtrack.aluno.repository.AlunoRepository;
+import com.ravvy.gymtrack.endereco.dto.EnderecoVinculoValidator;
+import com.ravvy.gymtrack.endereco.entity.Endereco;
 import com.ravvy.gymtrack.endereco.service.EnderecoService;
 import com.ravvy.gymtrack.instituicao.dto.InstituicaoCreateRequest;
 import com.ravvy.gymtrack.instituicao.dto.InstituicaoResponse;
 import com.ravvy.gymtrack.instituicao.dto.InstituicaoUpdateRequest;
 import com.ravvy.gymtrack.instituicao.entity.Instituicao;
-import com.ravvy.gymtrack.professor.entity.Professor;
-import com.ravvy.gymtrack.aluno.repository.AlunoRepository;
+import com.ravvy.gymtrack.instituicao.mapper.InstituicaoMapper;
 import com.ravvy.gymtrack.instituicao.repository.InstituicaoRepository;
+import com.ravvy.gymtrack.professor.dto.ProfessorResponse;
+import com.ravvy.gymtrack.professor.entity.Professor;
+import com.ravvy.gymtrack.professor.mapper.ProfessorMapper;
 import com.ravvy.gymtrack.professor.repository.ProfessorRepository;
-import com.ravvy.gymtrack.endereco.entity.Endereco;
+import com.ravvy.gymtrack.shared.exception.EmailDuplicadoException;
+import com.ravvy.gymtrack.shared.exception.SenhaAtualIncorretaException;
 import com.ravvy.gymtrack.shared.senhas.dto.UpdateSenhaRequest;
 import com.ravvy.gymtrack.shared.senhas.validation.SenhaValidator;
+import com.ravvy.gymtrack.shared.util.Email;
+import com.ravvy.gymtrack.usuario.entity.Usuario;
+import com.ravvy.gymtrack.usuario.enums.PapelUsuario;
+import com.ravvy.gymtrack.usuario.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,8 +44,11 @@ public class InstituicaoService {
     private final ProfessorRepository professorRepository;
     private final AlunoMapper alunoMapper;
     private final ProfessorMapper professorMapper;
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncode;
+    private final EnderecoVinculoValidator enderecoVinculoValidator;
 
-    public InstituicaoService(PasswordEncoder passwordEncoder, InstituicaoRepository instituicaoRepository, EnderecoService enderecoService, InstituicaoMapper instituicaoMapper, ProfessorRepository professorRepository, AlunoRepository alunoRepository, AlunoMapper alunoMapper, ProfessorMapper professorMapper) {
+    public InstituicaoService(PasswordEncoder passwordEncoder, InstituicaoRepository instituicaoRepository, EnderecoService enderecoService, InstituicaoMapper instituicaoMapper, ProfessorRepository professorRepository, AlunoRepository alunoRepository, AlunoMapper alunoMapper, ProfessorMapper professorMapper, UsuarioRepository usuarioRepository, PasswordEncoder passwordEncode, EnderecoVinculoValidator enderecoVinculoValidator) {
         this.passwordEncoder = passwordEncoder;
         this.instituicaoRepository = instituicaoRepository;
         this.alunoRepository = alunoRepository;
@@ -47,23 +57,46 @@ public class InstituicaoService {
         this.instituicaoMapper = instituicaoMapper;
         this.alunoMapper = alunoMapper;
         this.professorMapper = professorMapper;
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncode = passwordEncode;
+        this.enderecoVinculoValidator = enderecoVinculoValidator;
     }
 
     @Transactional
     public InstituicaoResponse save(InstituicaoCreateRequest request) {
 
+        enderecoVinculoValidator.garantirDisponivel(request.enderecoId());
+
         SenhaValidator.validar(request.senha());
+        String senhaHash = passwordEncoder.encode(request.senha());
 
-        Instituicao instituicao = toEntity(request);
+        Email email = new Email(
+                request.email()
+        );
 
-        instituicao.setSenhaHash(
-                passwordEncoder.encode(request.senha())
+        if (usuarioRepository.existsByEmailEndereco(email)) {
+            throw new EmailDuplicadoException();
+        }
+
+        Usuario usuario = new Usuario(
+                email,
+                senhaHash,
+                PapelUsuario.INSTITUICAO
+        );
+
+        Endereco endereco = enderecoService.buscarPorId(
+                request.enderecoId());
+
+        Instituicao instituicao = instituicaoMapper.toEntity(
+                request,
+                endereco,
+                usuario
         );
 
         Instituicao instituicaoSalva =
                 instituicaoRepository.save(instituicao);
 
-        return toResponse(instituicaoSalva);
+        return instituicaoMapper.toResponse(instituicaoSalva);
     }
 
     public void deleteById(Long id) {
@@ -187,37 +220,17 @@ public class InstituicaoService {
 
         if (!passwordEncoder.matches(
                 request.senhaAtual(),
-                instituicao.getSenhaHash())) {
+                instituicao.getUsuario().getSenhaHash())) {
 
-            throw new IllegalArgumentException(
-                    "A senha atual está incorreta");
+            throw new SenhaAtualIncorretaException();
         }
 
         SenhaValidator.validar(request.senhaNova());
+        String hashNovo = passwordEncode.encode(request.senhaNova());
 
-        instituicao.setSenhaHash(
-                passwordEncoder.encode(request.senhaNova())
-        );
+        instituicao.getUsuario().alterarSenha(hashNovo);
 
         instituicaoRepository.save(instituicao);
-    }
-
-    @Transactional
-    public Instituicao toEntity(InstituicaoCreateRequest request) {
-
-        Endereco endereco = enderecoService.buscarPorId(
-                request.enderecoId());
-
-        return instituicaoMapper.toEntity(
-                request,
-                endereco
-        );
-
-    }
-
-    @Transactional
-    public InstituicaoResponse toResponse(Instituicao instituicao) {
-        return instituicaoMapper.toResponse(instituicao);
     }
 
     @Transactional(readOnly = true)

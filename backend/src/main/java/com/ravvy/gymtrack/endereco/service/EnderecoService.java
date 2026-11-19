@@ -2,6 +2,7 @@ package com.ravvy.gymtrack.endereco.service;
 
 import com.ravvy.gymtrack.endereco.dto.EnderecoCreateRequest;
 import com.ravvy.gymtrack.endereco.dto.EnderecoResponse;
+import com.ravvy.gymtrack.endereco.dto.EnderecoVinculoValidator;
 import com.ravvy.gymtrack.endereco.mapper.EnderecoMapper;
 import com.ravvy.gymtrack.endereco.repository.EnderecoRepository;
 import com.ravvy.gymtrack.endereco.entity.Endereco;
@@ -14,21 +15,23 @@ public class EnderecoService {
 
     private final EnderecoRepository enderecoRepository;
     private final EnderecoMapper enderecoMapper;
+    private final EnderecoVinculoValidator enderecoVinculoValidator;
 
     public EnderecoService(
-            EnderecoRepository enderecoRepository, EnderecoMapper enderecoMapper
+            EnderecoRepository enderecoRepository, EnderecoMapper enderecoMapper, EnderecoVinculoValidator enderecoVinculoValidator
     ) {
         this.enderecoRepository = enderecoRepository;
         this.enderecoMapper = enderecoMapper;
+        this.enderecoVinculoValidator = enderecoVinculoValidator;
     }
 
     @Transactional
     public EnderecoResponse save(
             EnderecoCreateRequest request
     ) {
-
         Endereco endereco = enderecoMapper.toEntity(request);
 
+        enderecoVinculoValidator.garantirDisponivel(endereco.getId());
 
         Endereco enderecoSalvo = enderecoRepository.save(endereco);
 

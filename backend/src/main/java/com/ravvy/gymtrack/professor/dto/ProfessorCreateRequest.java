@@ -24,7 +24,7 @@ public record ProfessorCreateRequest(
         String cpf,
 
         @NotNull
-        Telefone telefone,
+        String telefone,
 
         @NotBlank
         @Email

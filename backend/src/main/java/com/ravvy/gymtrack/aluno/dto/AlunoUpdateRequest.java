@@ -31,4 +31,5 @@ public record AlunoUpdateRequest(
         @NotNull
         Long instituicaoId
 
-) {}
+) {
+}

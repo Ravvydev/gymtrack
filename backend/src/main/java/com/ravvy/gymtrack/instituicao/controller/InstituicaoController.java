@@ -10,6 +10,7 @@ import com.ravvy.gymtrack.shared.senhas.dto.UpdateSenhaRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,6 +37,7 @@ public class InstituicaoController {
                 );
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}")
     public ResponseEntity<InstituicaoResponse> getInstituicao(
             @PathVariable Long id
@@ -46,6 +48,7 @@ public class InstituicaoController {
         );
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping
     public ResponseEntity<List<InstituicaoResponse>> listarAllInstituicoes() {
         return ResponseEntity.ok(
@@ -53,6 +56,7 @@ public class InstituicaoController {
         );
     }
 
+    @PreAuthorize("hasRole('ADMIN') or @acesso.donoDaInstituicao(#id)")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteInstituicao(
             @PathVariable Long id
@@ -61,6 +65,7 @@ public class InstituicaoController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('ADMIN') or @acesso.donoDaInstituicao(#id)")
     @PutMapping("/{id}")
     public ResponseEntity<InstituicaoResponse> update(
             @RequestBody @Valid InstituicaoUpdateRequest request,
@@ -71,6 +76,7 @@ public class InstituicaoController {
         );
     }
 
+    @PreAuthorize("@acesso.donoDaInstituicao(#id)")
     @PutMapping("/{id}/senha")
     public ResponseEntity<Void> updateSenha(
             @RequestBody @Valid UpdateSenhaRequest request,
@@ -80,6 +86,7 @@ public class InstituicaoController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{idInstituicao}/alunos/{idAluno}")
     public ResponseEntity<Void> vincularAluno(
             @PathVariable Long idInstituicao,
@@ -92,6 +99,7 @@ public class InstituicaoController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{idInstituicao}/professores/{idProfessor}")
     public ResponseEntity<Void> vincularProfessor(
             @PathVariable Long idInstituicao,
@@ -104,6 +112,7 @@ public class InstituicaoController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('ADMIN') or @acesso.donoDaInstituicao(#idInstituicao)")
     @GetMapping("/{idInstituicao}/alunos")
     public ResponseEntity<List<AlunoResponse>> getAlunos(
             @PathVariable Long idInstituicao
@@ -114,6 +123,7 @@ public class InstituicaoController {
         );
     }
 
+    @PreAuthorize("hasRole('ADMIN') or @acesso.donoDaInstituicao(#idInstituicao)")
     @GetMapping("/{idInstituicao}/professores")
     public ResponseEntity<List<ProfessorResponse>> getProfessores(
             @PathVariable Long idInstituicao

@@ -5,6 +5,7 @@ import com.ravvy.gymtrack.endereco.entity.Endereco;
 import com.ravvy.gymtrack.professor.entity.Professor;
 import com.ravvy.gymtrack.shared.util.Email;
 import com.ravvy.gymtrack.shared.util.Telefone;
+import com.ravvy.gymtrack.usuario.entity.Usuario;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,17 +27,19 @@ public class Instituicao {
     private String nome;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "endereco_id")
+    @JoinColumn(name = "endereco_id", unique = true)
     private Endereco endereco;
 
     @Embedded
     private Telefone telefone;
 
-    @Embedded
-    private Email email;
-
-    @Column(name = "senha_hash", nullable = false, length = 60)
-    private String senhaHash;
+    @OneToOne(
+            optional = false,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(name = "usuario_id", nullable = false, unique = true)
+    private Usuario usuario;
 
     @OneToMany(mappedBy = "instituicao", fetch = FetchType.LAZY)
     private List<Aluno> alunos = new ArrayList<>();

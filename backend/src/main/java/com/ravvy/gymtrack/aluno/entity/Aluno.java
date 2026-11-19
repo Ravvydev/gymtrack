@@ -1,13 +1,13 @@
 package com.ravvy.gymtrack.aluno.entity;
 
+import com.ravvy.gymtrack.aluno.enums.TipoSexoBiologico;
 import com.ravvy.gymtrack.avaliacao.entity.Avaliacao;
 import com.ravvy.gymtrack.endereco.entity.Endereco;
 import com.ravvy.gymtrack.instituicao.entity.Instituicao;
 import com.ravvy.gymtrack.professor.entity.Professor;
 import com.ravvy.gymtrack.shared.util.Cpf;
-import com.ravvy.gymtrack.shared.util.Email;
 import com.ravvy.gymtrack.shared.util.Telefone;
-import com.ravvy.gymtrack.aluno.enums.TipoSexoBiologico;
+import com.ravvy.gymtrack.usuario.entity.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,7 +23,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "aluno")
-public class Aluno{
+public class Aluno {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,11 +39,13 @@ public class Aluno{
     @Enumerated(EnumType.STRING)
     private TipoSexoBiologico sexo;
 
-    @Embedded
-    private Email email;
-
-    @Column(name = "senha_hash", nullable = false, length = 60)
-    private String senhaHash;
+    @OneToOne(
+            optional = false,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(name = "usuario_id", nullable = false, unique = true)
+    private Usuario usuario;
 
     @Embedded
     private Telefone telefone;
@@ -52,7 +54,7 @@ public class Aluno{
     private Cpf cpf;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "endereco_id", nullable = false)
+    @JoinColumn(name = "endereco_id", nullable = false, unique = true)
     private Endereco endereco;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -152,11 +152,6 @@ public class AvaliacaoService {
         );
     }
 
-    @Transactional
-    public AvaliacaoResponse toResponse(Avaliacao avaliacao) {
-        return avaliacaoMapper.toResponse(avaliacao);
-    }
-
     public List<AvaliacaoResponse> buscarAvaliacoesPorData(
             Long professorId,
             LocalDate dataAvaliacao) {

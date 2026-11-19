@@ -1,12 +1,12 @@
 package com.ravvy.gymtrack.professor.entity;
 
 import com.ravvy.gymtrack.aluno.entity.Aluno;
+import com.ravvy.gymtrack.aluno.enums.TipoSexoBiologico;
 import com.ravvy.gymtrack.endereco.entity.Endereco;
 import com.ravvy.gymtrack.instituicao.entity.Instituicao;
 import com.ravvy.gymtrack.shared.util.Cpf;
-import com.ravvy.gymtrack.shared.util.Email;
 import com.ravvy.gymtrack.shared.util.Telefone;
-import com.ravvy.gymtrack.aluno.enums.TipoSexoBiologico;
+import com.ravvy.gymtrack.usuario.entity.Usuario;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +24,7 @@ public class Professor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nome",  nullable = false)
+    @Column(name = "nome", nullable = false)
     private String nome;
 
     @Embedded
@@ -37,24 +37,26 @@ public class Professor {
     @Column(name = "sexo", nullable = false)
     private TipoSexoBiologico sexo;
 
-    @Embedded
-    private Email email;
-
-    @Column(name = "senha_hash", nullable = false, length = 60)
-    private String senhaHash;
+    @OneToOne(
+            optional = false,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(name = "usuario_id", nullable = false, unique = true)
+    private Usuario usuario;
 
     @Embedded
     private Telefone telefone;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "endereco_id")
+    @JoinColumn(name = "endereco_id", unique = true)
     private Endereco endereco;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instituicao_id")
     private Instituicao instituicao;
 
-    @OneToMany(mappedBy = "professor",  fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "professor", fetch = FetchType.LAZY)
     private List<Aluno> alunos;
 
 }

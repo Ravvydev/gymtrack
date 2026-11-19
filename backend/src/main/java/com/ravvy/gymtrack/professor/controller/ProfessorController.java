@@ -8,6 +8,7 @@ import com.ravvy.gymtrack.shared.senhas.dto.UpdateSenhaRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,12 +28,14 @@ public class ProfessorController {
         );
     }
 
+    @PreAuthorize("hasRole('ADMIN') or @acesso.donoDoProfessor(#id)")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         professorService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('ADMIN') or @acesso.podeVerProfessor(#id)")
     @GetMapping("/{id}")
     public ResponseEntity<ProfessorResponse> getProfessor(@PathVariable Long id) {
         return ResponseEntity.ok(
@@ -40,6 +43,7 @@ public class ProfessorController {
         );
     }
 
+    @PreAuthorize("hasRole('ADMIN') or @acesso.donoDoProfessor(#id)")
     @PutMapping("/{id}")
     public ResponseEntity<ProfessorResponse> update(@RequestBody @Valid ProfessorUpdateRequest request,
                                                     @PathVariable Long id) {
@@ -48,6 +52,7 @@ public class ProfessorController {
         );
     }
 
+    @PreAuthorize("@acesso.donoDoProfessor(#id)")
     @PutMapping("/{id}/senha")
     public ResponseEntity<Void> updateSenha(@RequestBody @Valid UpdateSenhaRequest request,
                                                            @PathVariable Long id) {
@@ -56,6 +61,7 @@ public class ProfessorController {
 
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{idProfessor}/alunos/{idAluno}")
     public ResponseEntity<Void> vincularAluno(@PathVariable Long idProfessor,
                                               @PathVariable Long idAluno) {
